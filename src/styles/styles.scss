@@ -2,6 +2,10 @@
 @use 'light.scss' as light;
 @use 'dark.scss' as dark;
 
+.page {
+  padding: 20px;
+}
+
 .button {
   padding: 8px 12px;
   border: none;
@@ -10,6 +14,13 @@
 
 .theme-menu {
   display: flex;
+  gap: 10px;
+  align-self: flex-end;
+}
+
+.theme-menu-button {
+  padding: 4px 8px;
+  font-size: 0.8rem;
 }
 
 .board-5 {
