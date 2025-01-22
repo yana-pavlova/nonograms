@@ -2,6 +2,12 @@
 @use 'light.scss' as light;
 @use 'dark.scss' as dark;
 
+.button {
+  padding: 8px 12px;
+  border: none;
+  text-transform: uppercase;
+}
+
 .theme-menu {
   display: flex;
 }
