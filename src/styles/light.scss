@@ -1,5 +1,7 @@
 $main-color: #fff;
+$shadowed-main-color: #e5e5e5;
 $accent-color: #000;
+$shadowed-accent-color: #b3b3b3;
 
 .page.theme_light {
   background-color: $main-color;
@@ -10,6 +12,17 @@ $accent-color: #000;
     }
     & .cell.active {
       background-color: $accent-color;
+    }
+  }
+
+  .button {
+    background-color: $main-color;
+    color: $accent-color;
+    outline: 1px solid $accent-color;
+
+    &:disabled {
+      background-color: $shadowed-main-color;
+      color: $shadowed-accent-color;
     }
   }
 }
