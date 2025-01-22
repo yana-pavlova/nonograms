@@ -1,0 +1,15 @@
+$main-color: #000;
+$accent-color: #03ff00;
+
+.page.theme_dark {
+  background-color: $main-color;
+
+  .board {
+    & .cell {
+      outline: 1px solid $accent-color;
+    }
+    & .cell.active {
+      background-color: $accent-color;
+    }
+  }
+}

@@ -1,2 +1,13 @@
 @use './common.scss';
-@use './variables.scss';
+@use 'light.scss' as light;
+@use 'dark.scss' as dark;
+
+.theme-menu {
+  display: flex;
+}
+
+.board-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 40px);
+  grid-template-rows: repeat(5, 40px);
+}
