@@ -20,5 +20,9 @@ export default [
       ...pluginJs.configs.recommended.rules,
       'prettier/prettier': 'error', // Включение правил Prettier
     },
+    ignores: [
+      'node_modules/*', // Игнорирование папки node_modules
+      'dist/*', // Игнорирование папки dist
+    ],
   },
 ];
