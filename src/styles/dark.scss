@@ -18,11 +18,12 @@ $shadowed-accent-color: #282828;
   .button {
     background-color: $main-color;
     color: $accent-color;
-    outline-color: $accent-color;
+    border-color: $accent-color;
 
     &:disabled {
       background-color: $shadowed-main-color;
       color: $shadowed-accent-color;
+      border-color: $shadowed-accent-color;
     }
   }
 

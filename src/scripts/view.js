@@ -9,13 +9,17 @@ export const elements = {
   board: null,
   levelTabs: null,
   levelButtons: [],
+  nonogramMenuEasy: null,
+  nonogramMenuMedium: null,
+  nonogramMenuHard: null,
 };
 
-const drawGame = () => {
+const drawGame = (nonograms) => {
   const fragment = document.createDocumentFragment();
 
   fragment.append(themeButtons());
   fragment.append(createLevelTabs());
+  fragment.append(createNonogramMenu(nonograms));
   fragment.append(createBoard());
 
   document.body.classList.add('page', 'theme_light');
@@ -74,6 +78,7 @@ const createLevelTabs = () => {
       text: modeTypes[i],
     });
     level.dataset.level = levelDifficulty[i];
+    level.dataset.mode = modeTypes[i];
     if (modeTypes[i] === 'easy') {
       level.disabled = true;
       level.classList.add('active');
@@ -90,11 +95,46 @@ const createLevelTabs = () => {
       });
       button.classList.add('active');
       button.setAttribute('disabled', true);
+      location.href = `${location.origin}#${button.dataset.mode}`;
       elements.board.replaceWith(createBoard(button.dataset.level));
     });
   });
 
   return elements.levelTabs;
+};
+
+const createNonogramMenu = (nonograms) => {
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < Object.keys(nonograms).length; i++) {
+    const level = Object.keys(nonograms)[i];
+    const nonogramOfOneLevel = nonograms[Object.keys(nonograms)[i]];
+    const namesOfNonogramsOfOneLevel = Object.keys(nonogramOfOneLevel);
+
+    console.log(`nonogramMenu${level[0].toUpperCase() + level.slice(1)}`);
+
+    const nonogramMenu = createElement({
+      tag: 'nav',
+      classes: ['nonogram-menu'],
+    });
+
+    // nonogramMenu.dataset.level = level;
+    nonogramMenu.id = level;
+
+    namesOfNonogramsOfOneLevel.forEach((name) => {
+      const nonogram = createElement({
+        tag: 'button',
+        classes: ['button', 'nonogram'],
+        text: name,
+      });
+      nonogram.dataset.nonogram = name;
+      nonogramMenu.append(nonogram);
+    });
+
+    fragment.append(nonogramMenu);
+  }
+
+  return fragment;
 };
 
 const createBoard = (difficulty = 5) => {

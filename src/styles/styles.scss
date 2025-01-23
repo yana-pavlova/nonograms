@@ -9,14 +9,23 @@
 
 .button {
   padding: 8px 12px;
-  border: none;
+  border-width: 1px;
+  border-style: solid;
   text-transform: uppercase;
+
+  &:disabled {
+    border: transparent;
+  }
 }
 
 .theme-menu {
   display: flex;
   gap: 10px;
   align-self: flex-end;
+
+  & > .theme-menu-button {
+    border: none;
+  }
 }
 
 .theme-menu-button {
@@ -68,5 +77,40 @@
   & > :nth-child(15n + 5),
   & > :nth-child(15n + 10) {
     border-right-width: 3px;
+  }
+}
+
+.nonogram-menu {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  display: none;
+
+  &:target {
+    display: flex;
+  }
+
+  & > .nonogram {
+    padding: 4px 8px;
+    border: none;
+    outline: none;
+    transition:
+      text-shadow 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out;
+
+    &.active {
+      box-shadow: 0 1px 0 0 currentColor;
+    }
+
+    &:active {
+      box-shadow: 0 1px 0 0 currentColor;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: 0 1px 0 0 currentColor;
+      }
+    }
   }
 }

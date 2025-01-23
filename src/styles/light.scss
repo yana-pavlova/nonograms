@@ -18,7 +18,7 @@ $shadowed-accent-color: #b3b3b3;
   .button {
     background-color: $main-color;
     color: $accent-color;
-    outline: 1px solid $accent-color;
+    border-color: $accent-color;
 
     &:disabled {
       background-color: $shadowed-main-color;
