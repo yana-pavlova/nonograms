@@ -9,6 +9,9 @@ export const elements = {
   board: null,
   levelTabs: null,
   levelButtons: [],
+  easyNonograms: [],
+  mediumNonograms: [],
+  hardNonograms: [],
 };
 
 const drawGame = (nonograms) => {
@@ -92,6 +95,14 @@ const createLevelTabs = () => {
       });
       button.classList.add('active');
       button.setAttribute('disabled', true);
+
+      elements.easyNonograms.forEach((n) => n.classList.remove('active'));
+      elements.easyNonograms.forEach((n) => n.removeAttribute('disabled'));
+      elements.mediumNonograms.forEach((n) => n.classList.remove('active'));
+      elements.mediumNonograms.forEach((n) => n.removeAttribute('disabled'));
+      elements.hardNonograms.forEach((n) => n.classList.remove('active'));
+      elements.hardNonograms.forEach((n) => n.removeAttribute('disabled'));
+
       location.href = `${location.origin}#${button.dataset.mode}`;
       elements.board.replaceWith(createBoard(button.dataset.level));
     });
@@ -131,6 +142,7 @@ const createNonogramMenu = (nonograms) => {
         nonogram.classList.add('active');
         nonogram.setAttribute('disabled', true);
       });
+      elements[`${level}Nonograms`].push(nonogram);
       nonogramMenu.append(nonogram);
     });
 

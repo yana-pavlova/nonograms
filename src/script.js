@@ -1,5 +1,4 @@
 import './styles/styles.scss';
-import drawGame from './scripts/view.js';
-import nonograms from './data/nonograms.json';
+import initGame from './scripts/controller.js';
 
-drawGame(nonograms, nonograms.easy);
+initGame();
