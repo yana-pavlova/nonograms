@@ -8,7 +8,7 @@ $shadowed-accent-color: #b3b3b3;
 
   .board {
     & .cell {
-      outline: 1px solid $accent-color;
+      border-color: $accent-color;
     }
     & .cell.active {
       background-color: $accent-color;

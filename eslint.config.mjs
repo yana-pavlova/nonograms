@@ -6,7 +6,10 @@ import prettierPlugin from 'eslint-plugin-prettier';
 export default [
   {
     languageOptions: {
-      globals: { ...globals.browser, ...globals.node },
+      globals: {
+        ...globals.browser, // Глобальные переменные для браузера (document, localStorage и т.д.)
+        ...globals.node, // Глобальные переменные для Node.js (require, module, __dirname)
+      },
       ecmaVersion: 12,
       sourceType: 'module',
     },

@@ -3,6 +3,7 @@
 @use 'dark.scss' as dark;
 
 .page {
+  min-inline-size: 300px;
   padding: 20px;
 }
 
@@ -23,8 +24,49 @@
   font-size: 0.8rem;
 }
 
-.board-5 {
+.board {
   display: grid;
-  grid-template-columns: repeat(5, 40px);
-  grid-template-rows: repeat(5, 40px);
+  inline-size: 100%;
+  max-inline-size: 500px;
+  border-width: 3px;
+  border-style: solid;
+}
+
+.board > .cell {
+  aspect-ratio: 1 / 1;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.board-5 {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.board-10 {
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+
+  & > :nth-child(n + 51):nth-child(-n + 60) {
+    border-top-width: 3px;
+  }
+
+  & > :nth-child(10n + 5) {
+    border-right-width: 3px;
+  }
+}
+
+.board-15 {
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+
+  & > :nth-child(n + 76):nth-child(-n + 90),
+  & > :nth-child(n + 151):nth-child(-n + 165) {
+    border-top-width: 3px;
+  }
+
+  & > :nth-child(15n + 5),
+  & > :nth-child(15n + 10) {
+    border-right-width: 3px;
+  }
 }

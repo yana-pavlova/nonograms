@@ -1,6 +1,6 @@
 $main-color: #000;
 $shadowed-main-color: #2a6329;
-$accent-color: #03ff00;
+$accent-color: #2dfd2a;
 $shadowed-accent-color: #282828;
 
 .page.theme_dark {
@@ -8,7 +8,7 @@ $shadowed-accent-color: #282828;
 
   .board {
     & .cell {
-      outline: 1px solid $accent-color;
+      border-color: $accent-color;
     }
     & .cell.active {
       background-color: $accent-color;
@@ -18,7 +18,7 @@ $shadowed-accent-color: #282828;
   .button {
     background-color: $main-color;
     color: $accent-color;
-    outline: 1px solid $accent-color;
+    outline-color: $accent-color;
 
     &:disabled {
       background-color: $shadowed-main-color;
