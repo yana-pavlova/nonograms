@@ -1,12 +1,14 @@
 import nonograms from '../data/nonograms.json';
-import drawGame from './view.js';
+import drawGame, { drawClues } from './view.js';
 
 let isGameStarted = false;
 let nonogram = null;
 let userInput = null;
 
+const anchor = window.location.hash.slice(1);
+
 const initGame = () => {
-  drawGame(nonograms);
+  drawGame(nonograms, anchor);
 
   document.addEventListener('nonogramSelected', (event) => {
     console.log('Выбрана нонограмма:', event.detail.name);
@@ -16,8 +18,8 @@ const initGame = () => {
     userInput = Array.from({ length: nonogram.length }, () =>
       Array(nonogram[0].length).fill(0)
     );
-    console.table(nonogram);
-    console.table(userInput);
+
+    drawClues(nonogram);
     isGameStarted = true;
   });
 
@@ -25,7 +27,6 @@ const initGame = () => {
     if (isGameStarted) {
       const { row, col } = event.detail;
       userInput[row][col] = userInput[row][col] === 0 ? 1 : 0;
-      console.table(userInput);
 
       checkIfUserWins();
     }

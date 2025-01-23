@@ -14,11 +14,11 @@ export const elements = {
   hardNonograms: [],
 };
 
-const drawGame = (nonograms) => {
+const drawGame = (nonograms, anchor) => {
   const fragment = document.createDocumentFragment();
 
   fragment.append(themeButtons());
-  fragment.append(createLevelTabs());
+  fragment.append(createLevelTabs(anchor));
   fragment.append(createNonogramMenu(nonograms));
   fragment.append(createBoard());
 
@@ -68,7 +68,7 @@ const themeButtons = () => {
   return themeMenu;
 };
 
-const createLevelTabs = () => {
+const createLevelTabs = (anchor) => {
   elements.levelTabs = createElement({ tag: 'nav', classes: ['level-menu'] });
 
   for (let i = 0; i < numberOfLevels; i++) {
@@ -79,7 +79,13 @@ const createLevelTabs = () => {
     });
     level.dataset.level = levelDifficulty[i];
     level.dataset.mode = modeTypes[i];
-    if (modeTypes[i] === 'easy') {
+
+    if (anchor) {
+      if (anchor === modeTypes[i]) {
+        level.disabled = true;
+        level.classList.add('active');
+      }
+    } else if (key === modeTypes[i]) {
       level.disabled = true;
       level.classList.add('active');
     }
@@ -184,6 +190,10 @@ const createBoard = (difficulty = 5) => {
   }
 
   return elements.board;
+};
+
+export const drawClues = (matrix) => {
+  console.table(matrix);
 };
 
 export default drawGame;
