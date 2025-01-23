@@ -7,7 +7,7 @@ import {
 
 export const elements = {
   board: null,
-  levelMenu: null,
+  levelTabs: null,
   levelButtons: [],
 };
 
@@ -15,7 +15,7 @@ const drawGame = () => {
   const fragment = document.createDocumentFragment();
 
   fragment.append(themeButtons());
-  fragment.append(createMenu());
+  fragment.append(createLevelTabs());
   fragment.append(createBoard());
 
   document.body.classList.add('page', 'theme_light');
@@ -64,8 +64,8 @@ const themeButtons = () => {
   return themeMenu;
 };
 
-const createMenu = () => {
-  elements.levelMenu = createElement({ tag: 'nav', classes: ['level-menu'] });
+const createLevelTabs = () => {
+  elements.levelTabs = createElement({ tag: 'nav', classes: ['level-menu'] });
 
   for (let i = 0; i < numberOfLevels; i++) {
     const level = createElement({
@@ -78,7 +78,7 @@ const createMenu = () => {
       level.disabled = true;
       level.classList.add('active');
     }
-    elements.levelMenu.append(level);
+    elements.levelTabs.append(level);
     elements.levelButtons.push(level);
   }
 
@@ -94,7 +94,7 @@ const createMenu = () => {
     });
   });
 
-  return elements.levelMenu;
+  return elements.levelTabs;
 };
 
 const createBoard = (difficulty = 5) => {
