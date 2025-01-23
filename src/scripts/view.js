@@ -9,9 +9,6 @@ export const elements = {
   board: null,
   levelTabs: null,
   levelButtons: [],
-  nonogramMenuEasy: null,
-  nonogramMenuMedium: null,
-  nonogramMenuHard: null,
 };
 
 const drawGame = (nonograms) => {
@@ -111,14 +108,11 @@ const createNonogramMenu = (nonograms) => {
     const nonogramOfOneLevel = nonograms[Object.keys(nonograms)[i]];
     const namesOfNonogramsOfOneLevel = Object.keys(nonogramOfOneLevel);
 
-    console.log(`nonogramMenu${level[0].toUpperCase() + level.slice(1)}`);
-
     const nonogramMenu = createElement({
       tag: 'nav',
       classes: ['nonogram-menu'],
     });
 
-    // nonogramMenu.dataset.level = level;
     nonogramMenu.id = level;
 
     namesOfNonogramsOfOneLevel.forEach((name) => {
@@ -128,6 +122,15 @@ const createNonogramMenu = (nonograms) => {
         text: name,
       });
       nonogram.dataset.nonogram = name;
+
+      nonogram.addEventListener('click', () => {
+        nonogramMenu.querySelectorAll('.nonogram').forEach((btn) => {
+          btn.classList.remove('active');
+          btn.removeAttribute('disabled');
+        });
+        nonogram.classList.add('active');
+        nonogram.setAttribute('disabled', true);
+      });
       nonogramMenu.append(nonogram);
     });
 
