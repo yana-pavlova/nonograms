@@ -173,7 +173,13 @@ const createBoard = (difficulty = 5) => {
     cell.dataset.row = row;
     cell.dataset.col = col;
 
-    cell.addEventListener('click', () => cell.classList.toggle('active'));
+    cell.addEventListener('click', () => {
+      const event = new CustomEvent('cellSelected', {
+        detail: { row, col },
+      });
+      document.dispatchEvent(event);
+      cell.classList.toggle('active');
+    });
     elements.board.append(cell);
   }
 
