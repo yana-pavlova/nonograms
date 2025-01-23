@@ -141,6 +141,12 @@ const createNonogramMenu = (nonograms) => {
         });
         nonogram.classList.add('active');
         nonogram.setAttribute('disabled', true);
+
+        // событие выбора конкретной нонограммы
+        const event = new CustomEvent('nonogramSelected', {
+          detail: { name, level },
+        });
+        document.dispatchEvent(event);
       });
       elements[`${level}Nonograms`].push(nonogram);
       nonogramMenu.append(nonogram);
