@@ -165,7 +165,14 @@ const createBoard = (difficulty = 5) => {
   });
 
   for (let i = 0; i < difficulty ** 2; i++) {
+    const row = Math.floor(i / difficulty); // Номер строки
+    const col = i % difficulty; // Номер столбца
+
     const cell = createElement({ tag: 'div', classes: ['cell'] });
+
+    cell.dataset.row = row;
+    cell.dataset.col = col;
+
     cell.addEventListener('click', () => cell.classList.toggle('active'));
     elements.board.append(cell);
   }
