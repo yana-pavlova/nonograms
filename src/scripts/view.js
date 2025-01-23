@@ -20,7 +20,12 @@ const drawGame = (nonograms, anchor) => {
   fragment.append(themeButtons());
   fragment.append(createLevelTabs(anchor));
   fragment.append(createNonogramMenu(nonograms));
-  fragment.append(createBoard());
+
+  if (anchor) {
+    fragment.append(createBoard(levelDifficulty[modeTypes.indexOf(anchor)]));
+  } else {
+    fragment.append(createBoard());
+  }
 
   document.body.classList.add('page', 'theme_light');
   document.body.append(fragment);
@@ -169,6 +174,7 @@ const createBoard = (difficulty = 5) => {
     tag: 'div',
     classes: ['board', `board-${difficulty}`],
   });
+  elements.board.style.pointerEvents = 'none';
 
   for (let i = 0; i < difficulty ** 2; i++) {
     const row = Math.floor(i / difficulty); // Номер строки
@@ -180,11 +186,12 @@ const createBoard = (difficulty = 5) => {
     cell.dataset.col = col;
 
     cell.addEventListener('click', () => {
+      cell.classList.toggle('active');
+
       const event = new CustomEvent('cellSelected', {
         detail: { row, col },
       });
       document.dispatchEvent(event);
-      cell.classList.toggle('active');
     });
     elements.board.append(cell);
   }

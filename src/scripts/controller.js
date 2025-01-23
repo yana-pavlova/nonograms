@@ -1,5 +1,5 @@
 import nonograms from '../data/nonograms.json';
-import drawGame, { drawClues } from './view.js';
+import drawGame, { drawClues, elements } from './view.js';
 
 let isGameStarted = false;
 let nonogram = null;
@@ -21,6 +21,7 @@ const initGame = () => {
 
     drawClues(nonogram);
     isGameStarted = true;
+    elements.board.style.pointerEvents = 'auto';
   });
 
   document.addEventListener('cellSelected', (event) => {
@@ -43,6 +44,7 @@ const checkIfUserWins = () => {
   }
   console.log('Пользователь победил!');
   isGameStarted = false;
+  elements.board.style.pointerEvents = 'none';
 };
 
 export default initGame;
