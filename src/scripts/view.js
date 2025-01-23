@@ -90,7 +90,8 @@ const createLevelTabs = (anchor) => {
         level.disabled = true;
         level.classList.add('active');
       }
-    } else if (key === modeTypes[i]) {
+    } else if (modeTypes[i] === 'easy') {
+      window.location.hash = modeTypes[i];
       level.disabled = true;
       level.classList.add('active');
     }
