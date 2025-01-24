@@ -1,6 +1,7 @@
 $main-color: #fff;
 $shadowed-main-color: #e5e5e5;
 $accent-color: #000;
+$second-accent-color: #ffb1b1;
 $shadowed-accent-color: #b3b3b3;
 
 .page.theme_light {
@@ -11,7 +12,7 @@ $shadowed-accent-color: #b3b3b3;
       border-color: $accent-color;
     }
     & .cell.active {
-      background-color: $accent-color;
+      background-color: $second-accent-color;
     }
   }
 

@@ -1,5 +1,6 @@
 $main-color: #000;
 $shadowed-main-color: #2a6329;
+$second-accent-color: #591aff;
 $accent-color: #2dfd2a;
 $shadowed-accent-color: #282828;
 
@@ -11,7 +12,7 @@ $shadowed-accent-color: #282828;
       border-color: $accent-color;
     }
     & .cell.active {
-      background-color: $accent-color;
+      background-color: $second-accent-color;
     }
   }
 
