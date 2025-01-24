@@ -1,5 +1,5 @@
 import nonograms from '../data/nonograms.json';
-import drawGame, { drawClues, elements } from './view.js';
+import drawGame, { elements } from './view.js';
 
 let isGameStarted = false;
 let nonogram = null;
@@ -19,7 +19,7 @@ const initGame = () => {
       Array(nonogram[0].length).fill(0)
     );
 
-    drawClues(nonogram);
+    calculateClues(nonogram);
     isGameStarted = true;
     elements.board.style.pointerEvents = 'auto';
   });
@@ -45,6 +45,53 @@ const checkIfUserWins = () => {
   console.log('Пользователь победил!');
   isGameStarted = false;
   elements.board.style.pointerEvents = 'none';
+};
+
+const calculateClues = (matrix) => {
+  console.table(matrix);
+  const data = {
+    rows: [],
+    cols: [],
+  };
+
+  for (let r = 0; r < matrix.length; r++) {
+    const row = matrix[r];
+    let sequence = [];
+    let count = 0;
+
+    row.forEach((cell) => {
+      if (cell !== 0) {
+        count++;
+      } else if (count > 0) {
+        sequence.push(count);
+        count = 0;
+      }
+    });
+
+    if (count > 0) sequence.push(count);
+    if (sequence.length === 0) sequence.push(0);
+    data.rows.push(sequence);
+  }
+
+  for (let c = 0; c < matrix[0].length; c++) {
+    let sequence = [];
+    let count = 0;
+
+    for (let r = 0; r < matrix.length; r++) {
+      if (matrix[r][c] !== 0) {
+        count++;
+      } else if (count > 0) {
+        sequence.push(count);
+        count = 0;
+      }
+    }
+
+    if (count > 0) sequence.push(count);
+    if (sequence.length === 0) sequence.push(0);
+    data.cols[c] = sequence;
+  }
+
+  console.log(data);
 };
 
 export default initGame;

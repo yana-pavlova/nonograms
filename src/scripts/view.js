@@ -200,8 +200,4 @@ const createBoard = (difficulty = 5) => {
   return elements.board;
 };
 
-export const drawClues = (matrix) => {
-  console.table(matrix);
-};
-
 export default drawGame;

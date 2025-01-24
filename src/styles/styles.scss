@@ -99,10 +99,6 @@
       text-shadow 0.2s ease-in-out,
       box-shadow 0.2s ease-in-out;
 
-    &.active {
-      box-shadow: 0 1px 0 0 currentColor;
-    }
-
     &:active {
       box-shadow: 0 1px 0 0 currentColor;
     }
