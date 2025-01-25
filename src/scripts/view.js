@@ -235,6 +235,7 @@ const createBoard = (difficulty = 5) => {
       });
       document.dispatchEvent(event);
     });
+
     elements.board.append(cell);
   }
 
@@ -325,13 +326,14 @@ export const showClues = (data) => {
   const cols = elements.colsClues.querySelectorAll('.clue-col');
 
   for (let i = 0; i < cols.length; i++) {
-    cols[i].textContent = data.cols[i];
+    cols[i].textContent = data.cols[i].join('\n');
   }
 
   const rows = elements.rowsClues.querySelectorAll('.clue-row');
 
   for (let i = 0; i < rows.length; i++) {
-    rows[i].textContent = data.rows[i];
+    // rows[i].textContent = data.rows[i].join('-');
+    rows[i].innerHTML = data.rows[i].join('&nbsp;');
   }
 };
 
