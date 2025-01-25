@@ -154,6 +154,8 @@ const createNonogramMenu = (nonograms) => {
         nonogram.classList.add('active');
         nonogram.setAttribute('disabled', true);
 
+        elements.board.replaceWith(createBoard(levelDifficulty[i]));
+
         // событие выбора конкретной нонограммы
         const event = new CustomEvent('nonogramSelected', {
           detail: { name, level },
