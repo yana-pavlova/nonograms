@@ -30,4 +30,16 @@ $shadowed-accent-color: #b3b3b3;
   .theme-menu-button {
     outline: none;
   }
+
+  .modal-content {
+    background-color: $main-color;
+    color: $accent-color;
+    border-color: $accent-color;
+  }
+
+  @media (hover: hover) {
+    .close:hover {
+      font-weight: 600;
+    }
+  }
 }

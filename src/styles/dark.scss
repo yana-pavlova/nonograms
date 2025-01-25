@@ -1,6 +1,6 @@
 $main-color: #000;
 $shadowed-main-color: #2a6329;
-$second-accent-color: #fffc1a;
+$second-accent-color: #6400ff;
 $accent-color: #2dfd2a;
 $shadowed-accent-color: #282828;
 
@@ -30,5 +30,17 @@ $shadowed-accent-color: #282828;
 
   .theme-menu-button {
     outline: none;
+  }
+
+  .modal-content {
+    background-color: $main-color;
+    color: $accent-color;
+    border-color: $accent-color;
+  }
+
+  @media (hover: hover) {
+    .close:hover {
+      font-weight: 600;
+    }
   }
 }

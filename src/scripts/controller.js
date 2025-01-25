@@ -1,5 +1,5 @@
 import nonograms from '../data/nonograms.json';
-import drawGame, { elements } from './view.js';
+import drawGame, { elements, showWinMessage } from './view.js';
 
 let isGameStarted = false;
 let nonogram = null;
@@ -42,7 +42,8 @@ const checkIfUserWins = () => {
       }
     }
   }
-  console.log('Пользователь победил!');
+  showWinMessage("There's a win! 🎉");
+
   isGameStarted = false;
   elements.board.style.pointerEvents = 'none';
 };

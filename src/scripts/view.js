@@ -8,6 +8,7 @@ import {
 export const elements = {
   board: null,
   levelTabs: null,
+  popup: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
@@ -20,6 +21,7 @@ const drawGame = (nonograms, anchor) => {
   fragment.append(themeButtons());
   fragment.append(createLevelTabs(anchor));
   fragment.append(createNonogramMenu(nonograms));
+  fragment.append(createPopup());
 
   if (anchor) {
     fragment.append(createBoard(levelDifficulty[modeTypes.indexOf(anchor)]));
@@ -200,6 +202,53 @@ const createBoard = (difficulty = 5) => {
   }
 
   return elements.board;
+};
+
+const createPopup = () => {
+  const popupContainer = createElement({
+    tag: 'div',
+    classes: ['modal'],
+  });
+
+  const popup = createElement({
+    tag: 'div',
+    classes: ['modal-content'],
+  });
+
+  const closeButton = createElement({
+    tag: 'span',
+    classes: ['close'],
+  });
+
+  const text = createElement({
+    tag: 'p',
+    text: 'You win! 🎉',
+  });
+
+  popup.append(closeButton);
+  popup.append(text);
+
+  popupContainer.append(popup);
+
+  elements.popup = popupContainer;
+  return popupContainer;
+};
+
+export const showWinMessage = () => {
+  const popup = elements.popup;
+  const closeButton = popup.querySelector('.close');
+
+  popup.style.display = 'block';
+
+  closeButton.onclick = function () {
+    popup.style.display = 'none';
+  };
+
+  window.onclick = function (event) {
+    if (event.target == popup) {
+      popup.style.display = 'none';
+    }
+  };
 };
 
 export default drawGame;
