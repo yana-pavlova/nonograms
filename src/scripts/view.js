@@ -1,4 +1,4 @@
-import { createElement, changeTheme } from '../utils/utils.js';
+import { createElement, changeTheme } from './utils/utils.js';
 import {
   numberOfLevels,
   modeTypes,
@@ -7,6 +7,9 @@ import {
 
 export const elements = {
   board: null,
+  boardContainer: null,
+  colsClues: null,
+  rowsClues: null,
   levelTabs: null,
   popup: null,
   levelButtons: [],
@@ -118,7 +121,9 @@ const createLevelTabs = (anchor) => {
       elements.hardNonograms.forEach((n) => n.removeAttribute('disabled'));
 
       location.href = `${location.origin}#${button.dataset.mode}`;
-      elements.board.replaceWith(createBoard(button.dataset.level));
+
+      elements.boardContainer.replaceWith(createBoard(button.dataset.level));
+      // elements.board.replaceWith(createBoard(button.dataset.level));
     });
   });
 
@@ -156,7 +161,8 @@ const createNonogramMenu = (nonograms) => {
         nonogram.classList.add('active');
         nonogram.setAttribute('disabled', true);
 
-        elements.board.replaceWith(createBoard(levelDifficulty[i]));
+        elements.boardContainer.replaceWith(createBoard(levelDifficulty[i]));
+        // elements.board.replaceWith(createBoard(levelDifficulty[i]));
 
         // событие выбора конкретной нонограммы
         const event = new CustomEvent('nonogramSelected', {
@@ -175,6 +181,37 @@ const createNonogramMenu = (nonograms) => {
 };
 
 const createBoard = (difficulty = 5) => {
+  elements.boardContainer = createElement({
+    tag: 'div',
+    classes: ['board-container', `board-container-${difficulty}`],
+  });
+
+  elements.colsClues = createElement({
+    tag: 'div',
+    classes: ['cols-clues', `cols-clues-${difficulty}`],
+  });
+
+  elements.rowsClues = createElement({
+    tag: 'div',
+    classes: ['rows-clues', `rows-clues-${difficulty}`],
+  });
+
+  for (let i = 0; i < difficulty; i++) {
+    const colClue = createElement({
+      tag: 'div',
+      classes: ['clue', 'clue-col'],
+    });
+    const rowClue = createElement({
+      tag: 'div',
+      classes: ['clue', 'clue-row'],
+    });
+    elements.colsClues.append(colClue);
+    elements.rowsClues.append(rowClue);
+  }
+
+  elements.boardContainer.append(elements.colsClues);
+  elements.boardContainer.append(elements.rowsClues);
+
   elements.board = createElement({
     tag: 'div',
     classes: ['board', `board-${difficulty}`],
@@ -201,8 +238,39 @@ const createBoard = (difficulty = 5) => {
     elements.board.append(cell);
   }
 
-  return elements.board;
+  elements.boardContainer.append(elements.board);
+  return elements.boardContainer;
 };
+
+// const createBoard = (difficulty = 5) => {
+//   elements.board = createElement({
+//     tag: 'div',
+//     classes: ['board', `board-${difficulty}`],
+//   });
+//   elements.board.style.pointerEvents = 'none';
+
+//   for (let i = 0; i < difficulty ** 2; i++) {
+//     const row = Math.floor(i / difficulty); // Номер строки
+//     const col = i % difficulty; // Номер столбца
+
+//     const cell = createElement({ tag: 'div', classes: ['cell'] });
+
+//     cell.dataset.row = row;
+//     cell.dataset.col = col;
+
+//     cell.addEventListener('click', () => {
+//       cell.classList.toggle('active');
+
+//       const event = new CustomEvent('cellSelected', {
+//         detail: { row, col },
+//       });
+//       document.dispatchEvent(event);
+//     });
+//     elements.board.append(cell);
+//   }
+
+//   return elements.board;
+// };
 
 const createPopup = () => {
   const popupContainer = createElement({
@@ -249,6 +317,22 @@ export const showWinMessage = () => {
       popup.style.display = 'none';
     }
   };
+};
+
+export const showClues = (data) => {
+  console.log(data);
+
+  const cols = elements.colsClues.querySelectorAll('.clue-col');
+
+  for (let i = 0; i < cols.length; i++) {
+    cols[i].textContent = data.cols[i];
+  }
+
+  const rows = elements.rowsClues.querySelectorAll('.clue-row');
+
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].textContent = data.rows[i];
+  }
 };
 
 export default drawGame;

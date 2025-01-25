@@ -1,5 +1,5 @@
 import nonograms from '../data/nonograms.json';
-import drawGame, { elements, showWinMessage } from './view.js';
+import drawGame, { elements, showWinMessage, showClues } from './view.js';
 
 let isGameStarted = false;
 let nonogram = null;
@@ -92,7 +92,8 @@ const calculateClues = (matrix) => {
     data.cols[c] = sequence;
   }
 
-  console.log(data);
+  // console.log(data);
+  showClues(data);
 };
 
 export default initGame;

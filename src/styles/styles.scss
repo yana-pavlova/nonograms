@@ -35,6 +35,8 @@
 
 .board {
   display: grid;
+  grid-column: 2/3;
+  grid-row: 2/3;
   inline-size: 100%;
   max-inline-size: 500px;
   border-width: 3px 1px 1px 3px;
@@ -154,4 +156,70 @@
   right: 8px;
   font-size: 1.3rem;
   cursor: pointer;
+}
+
+.board-container {
+  inline-size: 100%;
+  max-inline-size: 500px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 5px;
+}
+
+// .board-container.board-container-15 {
+//   grid-template-columns: auto 1fr;
+// }
+
+.rows-clues {
+  display: grid;
+  grid-row: 2/3;
+  grid-column: 1/2;
+  align-items: center;
+  justify-content: end;
+}
+
+.rows-clues-5 {
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.rows-clues-10 {
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.rows-clues-15 {
+  grid-template-rows: repeat(15, 1fr);
+}
+
+.cols-clues {
+  display: grid;
+  grid-row: 1/2;
+  grid-column: 2/3;
+  align-items: end;
+  justify-content: center;
+}
+
+.cols-clues-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.cols-clues-10 {
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.cols-clues-15 {
+  grid-template-columns: repeat(15, 1fr);
+}
+
+.clue {
+  text-align: center;
+  font-size: 15px;
+}
+
+.clue-col {
+  writing-mode: vertical-rl;
+}
+
+.board-container-15 .clue {
+  font-size: 10px;
 }
