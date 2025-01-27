@@ -59,6 +59,7 @@ const checkIfUserWins = () => {
 
   isGameStarted = false;
   elements.board.style.pointerEvents = 'none';
+  elements.resetButton.style.display = 'none';
 };
 
 const calculateClues = (matrix) => {
