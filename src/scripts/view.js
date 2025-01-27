@@ -126,7 +126,6 @@ const createLevelTabs = (anchor) => {
       location.href = `${location.origin}#${button.dataset.mode}`;
 
       elements.boardContainer.replaceWith(createBoard(button.dataset.level));
-      // elements.board.replaceWith(createBoard(button.dataset.level));
     });
   });
 
@@ -165,9 +164,7 @@ const createNonogramMenu = (nonograms) => {
         nonogram.setAttribute('disabled', true);
 
         elements.boardContainer.replaceWith(createBoard(levelDifficulty[i]));
-        // elements.board.replaceWith(createBoard(levelDifficulty[i]));
 
-        // событие выбора конкретной нонограммы
         const event = new CustomEvent('nonogramSelected', {
           detail: { name, level },
         });
@@ -222,8 +219,8 @@ const createBoard = (difficulty = 5) => {
   elements.board.style.pointerEvents = 'none';
 
   for (let i = 0; i < difficulty ** 2; i++) {
-    const row = Math.floor(i / difficulty); // Номер строки
-    const col = i % difficulty; // Номер столбца
+    const row = Math.floor(i / difficulty);
+    const col = i % difficulty;
 
     const cell = createElement({ tag: 'div', classes: ['cell'] });
 
@@ -315,7 +312,6 @@ export const showClues = (data) => {
   const rows = elements.rowsClues.querySelectorAll('.clue-row');
 
   for (let i = 0; i < rows.length; i++) {
-    // rows[i].textContent = data.rows[i].join('-');
     rows[i].innerHTML = data.rows[i].join('&nbsp;');
   }
 };
@@ -325,6 +321,11 @@ const createResetButton = () => {
     tag: 'button',
     classes: ['button'],
     text: 'clear board',
+  });
+
+  elements.resetButton.addEventListener('click', () => {
+    const event = new CustomEvent('resetBoard');
+    document.dispatchEvent(event);
   });
 
   return elements.resetButton;

@@ -35,7 +35,14 @@ const initGame = () => {
         userInput[row][col] = 0;
       }
 
+      console.table(userInput);
       checkIfUserWins();
+    }
+  });
+
+  document.addEventListener('resetBoard', () => {
+    if (isGameStarted) {
+      resetGame();
     }
   });
 };
@@ -99,6 +106,17 @@ const calculateClues = (matrix) => {
   }
 
   showClues(data);
+};
+
+const resetGame = () => {
+  userInput = Array.from({ length: nonogram.length }, () =>
+    Array(nonogram[0].length).fill(0)
+  );
+
+  elements.board.querySelectorAll('.cell').forEach((cell) => {
+    cell.classList.remove('active');
+    cell.classList.remove('empty');
+  });
 };
 
 export default initGame;
