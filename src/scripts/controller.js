@@ -12,7 +12,6 @@ const initGame = () => {
 
   document.addEventListener('nonogramSelected', (event) => {
     console.log('Выбрана нонограмма:', event.detail.name);
-    console.log('Номер уровня:', event.detail.level);
 
     nonogram = nonograms[event.detail.level][event.detail.name];
     userInput = Array.from({ length: nonogram.length }, () =>
@@ -100,7 +99,6 @@ const calculateClues = (matrix) => {
     data.cols[c] = sequence;
   }
 
-  // console.log(data);
   showClues(data);
 };
 

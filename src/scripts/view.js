@@ -12,6 +12,7 @@ export const elements = {
   rowsClues: null,
   levelTabs: null,
   popup: null,
+  resetButton: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
@@ -31,6 +32,8 @@ const drawGame = (nonograms, anchor) => {
   } else {
     fragment.append(createBoard());
   }
+
+  fragment.append(createResetButton());
 
   document.body.classList.add('page', 'theme_light');
   document.body.append(fragment);
@@ -233,11 +236,9 @@ const createBoard = (difficulty = 5) => {
 
     cell.addEventListener('mousedown', (e) => {
       if (e.button === 0) {
-        console.log('Левая кнопка на элементе');
         cell.classList.remove('empty');
         cell.classList.toggle('active');
       } else if (e.button === 2) {
-        console.log('Правая кнопка на элементе');
         cell.classList.remove('active');
         cell.classList.add('empty');
       }
@@ -305,8 +306,6 @@ export const showWinMessage = () => {
 };
 
 export const showClues = (data) => {
-  console.log(data);
-
   const cols = elements.colsClues.querySelectorAll('.clue-col');
 
   for (let i = 0; i < cols.length; i++) {
@@ -319,6 +318,16 @@ export const showClues = (data) => {
     // rows[i].textContent = data.rows[i].join('-');
     rows[i].innerHTML = data.rows[i].join('&nbsp;');
   }
+};
+
+const createResetButton = () => {
+  elements.resetButton = createElement({
+    tag: 'button',
+    classes: ['button'],
+    text: 'clear board',
+  });
+
+  return elements.resetButton;
 };
 
 export default drawGame;
