@@ -24,3 +24,7 @@ button {
 button:disabled {
   cursor: default;
 }
+
+.no-scroll {
+  overflow: hidden;
+}

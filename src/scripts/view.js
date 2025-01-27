@@ -285,9 +285,11 @@ export const showWinMessage = () => {
   const closeButton = popup.querySelector('.close');
 
   popup.style.display = 'block';
+  document.body.classList.add('no-scroll');
 
   closeButton.onclick = function () {
     popup.style.display = 'none';
+    document.body.classList.remove('no-scroll');
   };
 
   window.onclick = function (event) {
