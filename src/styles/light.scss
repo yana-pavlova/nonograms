@@ -18,6 +18,12 @@ $shadowed-accent-color: #b3b3b3;
     & .cell.active {
       background-color: $second-accent-color;
     }
+    & .cell.empty {
+      &::after,
+      &::before {
+        background-color: $accent-color;
+      }
+    }
   }
 
   .button {

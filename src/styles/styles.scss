@@ -44,9 +44,31 @@
 }
 
 .board > .cell {
+  position: relative;
   aspect-ratio: 1 / 1;
   border-style: solid;
   border-width: 1px;
+
+  &.empty {
+    &::after,
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      inline-size: 2px;
+      block-size: 100%;
+    }
+
+    &::after {
+      transform: rotate(45deg);
+    }
+
+    &::before {
+      transform: rotate(-45deg);
+    }
+  }
 }
 
 .board-5 {

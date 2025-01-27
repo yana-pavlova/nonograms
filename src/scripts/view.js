@@ -228,7 +228,14 @@ const createBoard = (difficulty = 5) => {
     cell.dataset.col = col;
 
     cell.addEventListener('click', () => {
-      cell.classList.toggle('active');
+      if (cell.classList.contains('active')) {
+        cell.classList.remove('active');
+        cell.classList.add('empty');
+      } else if (cell.classList.contains('empty')) {
+        cell.classList.remove('empty');
+      } else {
+        cell.classList.add('active');
+      }
 
       const event = new CustomEvent('cellSelected', {
         detail: { row, col },
@@ -242,36 +249,6 @@ const createBoard = (difficulty = 5) => {
   elements.boardContainer.append(elements.board);
   return elements.boardContainer;
 };
-
-// const createBoard = (difficulty = 5) => {
-//   elements.board = createElement({
-//     tag: 'div',
-//     classes: ['board', `board-${difficulty}`],
-//   });
-//   elements.board.style.pointerEvents = 'none';
-
-//   for (let i = 0; i < difficulty ** 2; i++) {
-//     const row = Math.floor(i / difficulty); // Номер строки
-//     const col = i % difficulty; // Номер столбца
-
-//     const cell = createElement({ tag: 'div', classes: ['cell'] });
-
-//     cell.dataset.row = row;
-//     cell.dataset.col = col;
-
-//     cell.addEventListener('click', () => {
-//       cell.classList.toggle('active');
-
-//       const event = new CustomEvent('cellSelected', {
-//         detail: { row, col },
-//       });
-//       document.dispatchEvent(event);
-//     });
-//     elements.board.append(cell);
-//   }
-
-//   return elements.board;
-// };
 
 const createPopup = () => {
   const popupContainer = createElement({
