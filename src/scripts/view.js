@@ -238,7 +238,7 @@ const createBoard = (difficulty = 5) => {
       }
 
       const event = new CustomEvent('cellSelected', {
-        detail: { row, col },
+        detail: { row, col, cell },
       });
       document.dispatchEvent(event);
     });

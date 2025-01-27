@@ -26,9 +26,17 @@ const initGame = () => {
 
   document.addEventListener('cellSelected', (event) => {
     if (isGameStarted) {
-      const { row, col } = event.detail;
-      userInput[row][col] = userInput[row][col] === 0 ? 1 : 0;
+      const { row, col, cell } = event.detail;
 
+      if (cell.classList.contains('empty')) {
+        userInput[row][col] = 0;
+      } else if (cell.classList.contains('active')) {
+        userInput[row][col] = 1;
+      } else {
+        userInput[row][col] = 0;
+      }
+
+      // userInput[row][col] = userInput[row][col] === 0 ? 1 : 0;
       checkIfUserWins();
     }
   });
