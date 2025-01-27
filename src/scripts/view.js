@@ -163,6 +163,8 @@ const createNonogramMenu = (nonograms) => {
         nonogram.classList.add('active');
         nonogram.setAttribute('disabled', true);
 
+        elements.resetButton.style.display = 'block';
+
         elements.boardContainer.replaceWith(createBoard(levelDifficulty[i]));
 
         const event = new CustomEvent('nonogramSelected', {
@@ -327,6 +329,8 @@ const createResetButton = () => {
     const event = new CustomEvent('resetBoard');
     document.dispatchEvent(event);
   });
+
+  elements.resetButton.style.display = 'none';
 
   return elements.resetButton;
 };
