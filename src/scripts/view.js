@@ -319,7 +319,7 @@ export const showClues = (data) => {
 const createResetButton = () => {
   elements.resetButton = createElement({
     tag: 'button',
-    classes: ['button'],
+    classes: ['button', 'reset-button'],
     text: 'clear board',
   });
 

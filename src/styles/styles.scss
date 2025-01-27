@@ -16,6 +16,16 @@
   &:disabled {
     border: transparent;
   }
+
+  @media (hover: hover) {
+    &.level:hover,
+    &.theme-menu-button:hover,
+    &.reset-button:hover {
+      transition:
+        color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out;
+    }
+  }
 }
 
 .theme-menu {
@@ -123,18 +133,19 @@
       text-shadow 0.2s ease-in-out,
       box-shadow 0.2s ease-in-out;
 
-    &:active {
+    &:disabled {
+      box-shadow: none;
+    }
+
+    &:active,
+    &:focus {
       box-shadow: 0 1px 0 0 currentColor;
     }
 
     @media (hover: hover) {
-      &:hover {
+      &:hover:not(:disabled) {
         box-shadow: 0 1px 0 0 currentColor;
       }
-    }
-
-    &:disabled {
-      box-shadow: none;
     }
   }
 }
