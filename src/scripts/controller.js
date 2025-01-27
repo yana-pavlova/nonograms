@@ -35,7 +35,6 @@ const initGame = () => {
         userInput[row][col] = 0;
       }
 
-      // userInput[row][col] = userInput[row][col] === 0 ? 1 : 0;
       checkIfUserWins();
     }
   });
