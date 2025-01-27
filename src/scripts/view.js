@@ -227,14 +227,19 @@ const createBoard = (difficulty = 5) => {
     cell.dataset.row = row;
     cell.dataset.col = col;
 
-    cell.addEventListener('click', () => {
-      if (cell.classList.contains('active')) {
+    cell.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+    });
+
+    cell.addEventListener('mousedown', (e) => {
+      if (e.button === 0) {
+        console.log('Левая кнопка на элементе');
+        cell.classList.remove('empty');
+        cell.classList.toggle('active');
+      } else if (e.button === 2) {
+        console.log('Правая кнопка на элементе');
         cell.classList.remove('active');
         cell.classList.add('empty');
-      } else if (cell.classList.contains('empty')) {
-        cell.classList.remove('empty');
-      } else {
-        cell.classList.add('active');
       }
 
       const event = new CustomEvent('cellSelected', {
