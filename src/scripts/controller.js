@@ -35,7 +35,6 @@ const initGame = () => {
         userInput[row][col] = 0;
       }
 
-      console.table(userInput);
       checkIfUserWins();
     }
   });
@@ -63,7 +62,6 @@ const checkIfUserWins = () => {
 };
 
 const calculateClues = (matrix) => {
-  console.table(matrix);
   const data = {
     rows: [],
     cols: [],
