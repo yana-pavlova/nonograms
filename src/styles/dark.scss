@@ -79,7 +79,7 @@ $shadowed-accent-color: #282828;
 
   @media (hover: hover) {
     .close:hover {
-      font-weight: 600;
+      color: $shadowed-main-color;
     }
   }
 }

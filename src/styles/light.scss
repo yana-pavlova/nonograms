@@ -77,7 +77,7 @@ $shadowed-accent-color: #b3b3b3;
 
   @media (hover: hover) {
     .close:hover {
-      font-weight: 600;
+      color: $second-accent-color;
     }
   }
 }
