@@ -4,6 +4,7 @@ import {
   modeTypes,
   levelDifficulty,
 } from '../data/constants.js';
+import * as sounds from './utils/sounds.js';
 
 export const elements = {
   board: null,
@@ -17,6 +18,7 @@ export const elements = {
   stopwatchHours: null,
   stopwatchMinutes: null,
   stopwatchSeconds: null,
+  soundButton: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
@@ -24,12 +26,14 @@ export const elements = {
 };
 
 let intervalId = null;
+let soundsEnabled = true;
 
 const drawGame = (nonograms, anchor) => {
   const fragment = document.createDocumentFragment();
 
   const header = createElement({ tag: 'nav', classes: ['menu'] });
   header.append(createStopwatch());
+  header.append(createSoundButton());
   header.append(themeButtons());
   fragment.append(header);
 
@@ -251,9 +255,24 @@ const createBoard = (difficulty = 5) => {
       if (e.button === 0) {
         cell.classList.remove('empty');
         cell.classList.toggle('active');
+        if (cell.classList.contains('active')) {
+          if (soundsEnabled) {
+            sounds.filledCellSound.currentTime = 0;
+            sounds.filledCellSound.play();
+          }
+        } else {
+          if (soundsEnabled) {
+            sounds.clearedCellSound.currentTime = 0;
+            sounds.clearedCellSound.play();
+          }
+        }
       } else if (e.button === 2) {
         cell.classList.remove('active');
         cell.classList.add('empty');
+        if (soundsEnabled) {
+          sounds.emptiedCellSound.currentTime = 0;
+          sounds.emptiedCellSound.play();
+        }
       }
 
       const event = new CustomEvent('cellSelected', {
@@ -325,6 +344,11 @@ export const showWinMessage = () => {
   time.textContent = totalSecs;
 
   stopStopwatch();
+
+  if (soundsEnabled) {
+    sounds.winSound.play();
+  }
+
   popup.style.display = 'block';
   document.body.classList.add('no-scroll');
 
@@ -436,6 +460,21 @@ const resetStopwatch = () => {
   elements.stopwatchHours.textContent = '00';
   elements.stopwatchMinutes.textContent = '00';
   elements.stopwatchSeconds.textContent = '00';
+};
+
+const createSoundButton = () => {
+  elements.soundButton = createElement({
+    tag: 'button',
+    classes: ['button', 'sound-button'],
+    text: '♫',
+  });
+
+  elements.soundButton.addEventListener('click', () => {
+    soundsEnabled = !soundsEnabled;
+    elements.soundButton.classList.toggle('sound-off');
+  });
+
+  return elements.soundButton;
 };
 
 export default drawGame;

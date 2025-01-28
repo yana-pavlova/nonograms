@@ -41,6 +41,18 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)$/, // Для изображений
         type: 'asset/resource', // Копирование изображений в сборку
       },
+      {
+        test: /\.(mp3|wav)$/i,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024 // 8kb
+          }
+        },
+        generator: {
+          filename: 'sounds/[name][ext]'
+        }
+      }
     ],
   },
   plugins: [
