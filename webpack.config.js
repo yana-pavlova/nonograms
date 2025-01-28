@@ -46,13 +46,13 @@ module.exports = {
         type: 'asset',
         parser: {
           dataUrlCondition: {
-            maxSize: 8 * 1024 // 8kb
-          }
+            maxSize: 8 * 1024, // 8kb
+          },
         },
         generator: {
-          filename: 'sounds/[name][ext]'
-        }
-      }
+          filename: 'sounds/[name][ext]',
+        },
+      },
     ],
   },
   plugins: [
