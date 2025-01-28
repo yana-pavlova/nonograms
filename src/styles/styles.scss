@@ -27,7 +27,7 @@
   @media (hover: hover) {
     &.level:hover,
     &.theme-menu-button:hover,
-    &.reset-button:hover {
+    &.game-menu-button:hover {
       transition:
         color 0.2s ease-in-out,
         background-color 0.2s ease-in-out;
@@ -274,4 +274,10 @@
     block-size: 24px;
     background-color: currentColor;
   }
+}
+
+.game-menu {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
 }

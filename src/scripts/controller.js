@@ -1,11 +1,22 @@
 import nonograms from '../data/nonograms.json';
-import drawGame, { elements, showWinMessage, showClues } from './view.js';
+import drawGame, {
+  elements,
+  restoreState,
+  showWinMessage,
+  showClues,
+} from './view.js';
+import {
+  saveDataInLocalStorage,
+  getDataFromLocalStorage,
+} from './utils/utils.js';
 
 let isGameStarted = false;
-let nonogram = null;
+let nonogramMatrix = null;
+let nonogramName;
+
 let userInput = null;
 
-const anchor = window.location.hash.slice(1);
+let anchor = window.location.hash.slice(1);
 
 const initGame = () => {
   drawGame(nonograms, anchor);
@@ -13,16 +24,21 @@ const initGame = () => {
   document.addEventListener('nonogramSelected', (event) => {
     console.log('Выбрана нонограмма:', event.detail.name);
 
-    nonogram = nonograms[event.detail.level][event.detail.name];
-    userInput = Array.from({ length: nonogram.length }, () =>
-      Array(nonogram[0].length).fill(0)
-    );
+    nonogramName = event.detail.name;
+    nonogramMatrix = nonograms[event.detail.level][event.detail.name];
+    if (event.detail.input) {
+      userInput = event.detail.input;
+    } else {
+      userInput = Array.from({ length: nonogramMatrix.length }, () =>
+        Array(nonogramMatrix[0].length).fill(0)
+      );
+    }
 
-    calculateClues(nonogram);
+    calculateClues(nonogramMatrix);
     isGameStarted = true;
     elements.board.style.pointerEvents = 'auto';
 
-    console.table(nonogram);
+    console.table(nonogramMatrix);
   });
 
   document.addEventListener('cellSelected', (event) => {
@@ -30,7 +46,7 @@ const initGame = () => {
       const { row, col, cell } = event.detail;
 
       if (cell.classList.contains('empty')) {
-        userInput[row][col] = 0;
+        userInput[row][col] = 2;
       } else if (cell.classList.contains('active')) {
         userInput[row][col] = 1;
       } else {
@@ -46,18 +62,53 @@ const initGame = () => {
       resetGame();
     }
   });
+
+  document.addEventListener('saveState', () => {
+    if (isGameStarted) {
+      saveDataInLocalStorage(
+        {
+          userInput: userInput,
+          nonogramMatrix: nonogramMatrix,
+          nonogramName: nonogramName,
+          level: window.location.hash.slice(1),
+          hours: elements.stopwatchHours.textContent,
+          minutes: elements.stopwatchMinutes.textContent,
+          seconds: elements.stopwatchSeconds.textContent,
+        },
+        'gameState'
+      );
+    }
+  });
+
+  document.addEventListener('restoreState', () => {
+    if (isGameStarted) {
+      const state = getDataFromLocalStorage('gameState');
+      if (!state) return;
+
+      nonogramMatrix = state.nonogramMatrix;
+      userInput = state.userInput;
+      nonogramName = state.nonogramName;
+      anchor = state.level;
+      isGameStarted = true;
+
+      restoreState(state);
+    }
+  });
 };
 
 const checkIfUserWins = () => {
-  for (let i = 0; i < nonogram.length; i++) {
-    for (let j = 0; j < nonogram[i].length; j++) {
-      if (nonogram[i][j] !== userInput[i][j]) {
+  for (let i = 0; i < nonogramMatrix.length; i++) {
+    for (let j = 0; j < nonogramMatrix[i].length; j++) {
+      if (nonogramMatrix[i][j] === 0 && userInput[i][j] === 1) {
+        return;
+      }
+      if (nonogramMatrix[i][j] === 1 && userInput[i][j] !== 1) {
         return;
       }
     }
   }
-  showWinMessage("There's a win! 🎉");
 
+  showWinMessage();
   isGameStarted = false;
   elements.board.style.pointerEvents = 'none';
   elements.resetButton.style.display = 'none';
@@ -110,8 +161,8 @@ const calculateClues = (matrix) => {
 };
 
 const resetGame = () => {
-  userInput = Array.from({ length: nonogram.length }, () =>
-    Array(nonogram[0].length).fill(0)
+  userInput = Array.from({ length: nonogramMatrix.length }, () =>
+    Array(nonogramMatrix[0].length).fill(0)
   );
 
   elements.board.querySelectorAll('.cell').forEach((cell) => {

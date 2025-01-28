@@ -27,3 +27,9 @@ export const changeTheme = (theme) => {
 };
 
 export const padWithZero = (number) => String(number).padStart(2, '0');
+
+export const saveDataInLocalStorage = (data, name) =>
+  localStorage.setItem(name, JSON.stringify(data));
+
+export const getDataFromLocalStorage = (name) =>
+  JSON.parse(localStorage.getItem(name));

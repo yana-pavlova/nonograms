@@ -43,7 +43,7 @@ $shadowed-accent-color: #b3b3b3;
     @media (hover: hover) {
       &.level:hover:not(:disabled),
       &.theme-menu-button:hover:not(:disabled),
-      &.reset-button:hover:not(:disabled) {
+      &.game-menu-button:hover:not(:disabled) {
         color: $main-color;
         background-color: $accent-color;
       }
@@ -51,14 +51,14 @@ $shadowed-accent-color: #b3b3b3;
 
     &.level:active:not(:disabled),
     &.theme-menu-button:active:not(:disabled),
-    &.reset-button:active:not(:disabled) {
+    &.game-menu-button:active:not(:disabled) {
       color: $main-color;
       background-color: $accent-color;
     }
 
     &.level:focus:not(:disabled),
     &.theme-menu-button:focus:not(:disabled),
-    &.reset-button:focus:not(:disabled) {
+    &.game-menu-button:focus:not(:disabled) {
       outline: none;
       color: $main-color;
       background-color: $accent-color;

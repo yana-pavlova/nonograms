@@ -19,6 +19,7 @@ export const elements = {
   stopwatchMinutes: null,
   stopwatchSeconds: null,
   soundButton: null,
+  saveStateButton: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
@@ -47,7 +48,11 @@ const drawGame = (nonograms, anchor) => {
     fragment.append(createBoard());
   }
 
-  fragment.append(createResetButton());
+  const footer = createElement({ tag: 'nav', classes: ['game-menu'] });
+  footer.append(createResetButton());
+  footer.append(createSaveStateButton());
+  footer.append(createRestoreStateButton());
+  fragment.append(footer);
 
   document.body.classList.add('page', 'theme_light');
   document.body.append(fragment);
@@ -96,6 +101,7 @@ const themeButtons = () => {
 };
 
 const createLevelTabs = (anchor) => {
+  elements.levelTabs = null;
   elements.levelTabs = createElement({ tag: 'nav', classes: ['level-menu'] });
 
   for (let i = 0; i < numberOfLevels; i++) {
@@ -105,6 +111,7 @@ const createLevelTabs = (anchor) => {
       text: modeTypes[i],
     });
     level.dataset.level = levelDifficulty[i];
+
     level.dataset.mode = modeTypes[i];
 
     if (anchor) {
@@ -180,6 +187,8 @@ const createNonogramMenu = (nonograms) => {
         nonogram.setAttribute('disabled', true);
 
         elements.resetButton.style.display = 'block';
+        elements.saveStateButton.style.display = 'block';
+        elements.restoreStateButton.style.display = 'block';
 
         startStopwatch();
 
@@ -201,6 +210,10 @@ const createNonogramMenu = (nonograms) => {
 };
 
 const createBoard = (difficulty = 5) => {
+  elements.boardContainer = null;
+  elements.colsClues = null;
+  elements.rowsClues = null;
+
   elements.boardContainer = createElement({
     tag: 'div',
     classes: ['board-container', `board-container-${difficulty}`],
@@ -343,6 +356,10 @@ export const showWinMessage = () => {
 
   time.textContent = totalSecs;
 
+  elements.resetButton.style.display = 'none';
+  elements.saveStateButton.style.display = 'none';
+  elements.restoreStateButton.style.display = 'none';
+
   stopStopwatch();
 
   if (soundsEnabled) {
@@ -376,23 +393,6 @@ export const showClues = (data) => {
   for (let i = 0; i < rows.length; i++) {
     rows[i].innerHTML = data.rows[i].join('&nbsp;');
   }
-};
-
-const createResetButton = () => {
-  elements.resetButton = createElement({
-    tag: 'button',
-    classes: ['button', 'reset-button'],
-    text: 'clear board',
-  });
-
-  elements.resetButton.addEventListener('click', () => {
-    const event = new CustomEvent('resetBoard');
-    document.dispatchEvent(event);
-  });
-
-  elements.resetButton.style.display = 'none';
-
-  return elements.resetButton;
 };
 
 const createStopwatch = () => {
@@ -475,6 +475,123 @@ const createSoundButton = () => {
   });
 
   return elements.soundButton;
+};
+
+const createResetButton = () => {
+  elements.resetButton = createElement({
+    tag: 'button',
+    classes: ['button', 'game-menu-button', 'reset-button'],
+    text: 'clear board',
+  });
+
+  elements.resetButton.addEventListener('click', () => {
+    const event = new CustomEvent('resetBoard');
+    document.dispatchEvent(event);
+  });
+
+  elements.resetButton.style.display = 'none';
+
+  return elements.resetButton;
+};
+
+const createSaveStateButton = () => {
+  elements.saveStateButton = createElement({
+    tag: 'button',
+    classes: ['button', 'game-menu-button', 'save-state-button'],
+    text: 'save state',
+  });
+
+  elements.saveStateButton.addEventListener('click', () => {
+    elements.restoreStateButton.disabled = false;
+
+    const event = new CustomEvent('saveState');
+    document.dispatchEvent(event);
+  });
+
+  elements.saveStateButton.style.display = 'none';
+
+  return elements.saveStateButton;
+};
+
+const createRestoreStateButton = () => {
+  elements.restoreStateButton = createElement({
+    tag: 'button',
+    classes: ['button', 'game-menu-button', 'restore-state-button'],
+    text: 'restore state',
+  });
+
+  elements.restoreStateButton.addEventListener('click', () => {
+    const event = new CustomEvent('restoreState');
+    document.dispatchEvent(event);
+  });
+
+  elements.restoreStateButton.style.display = 'none';
+  elements.restoreStateButton.disabled = true;
+
+  elements.restoreStateButton.addEventListener('click', () => {
+    const event = new CustomEvent('restoreState');
+    document.dispatchEvent(event);
+  });
+
+  return elements.restoreStateButton;
+};
+
+export const restoreState = (state) => {
+  elements.levelButtons.forEach((button) => {
+    button.classList.remove('active');
+    button.removeAttribute('disabled');
+    if (button.dataset.mode === state.level) {
+      button.classList.add('active');
+      button.setAttribute('disabled', true);
+    }
+  });
+
+  window.location.hash = state.level;
+
+  elements.boardContainer.replaceWith(
+    createBoard(levelDifficulty[modeTypes.indexOf(state.level)])
+  );
+
+  for (let i = 0; i < state.nonogramMatrix.length; i++) {
+    for (let j = 0; j < state.nonogramMatrix[i].length; j++) {
+      const cell = elements.board.querySelector(
+        `.cell[data-row="${i}"][data-col="${j}"]`
+      );
+      if (state.userInput[i][j] === 1) {
+        cell.classList.add('active');
+      } else if (state.userInput[i][j] === 2) {
+        cell.classList.add('empty');
+      }
+    }
+  }
+
+  elements.stopwatchHours.textContent = state.hours;
+  elements.stopwatchMinutes.textContent = state.minutes;
+  elements.stopwatchSeconds.textContent = state.seconds;
+
+  const nonogramButton = elements[`${state.level}Nonograms`].find(
+    (btn) => btn.dataset.nonogram === state.nonogramName
+  );
+
+  if (nonogramButton) {
+    nonogramButton.classList.add('active');
+    nonogramButton.setAttribute('disabled', true);
+
+    elements.resetButton.style.display = 'block';
+    elements.saveStateButton.style.display = 'block';
+    elements.restoreStateButton.style.display = 'block';
+
+    const event = new CustomEvent('nonogramSelected', {
+      detail: {
+        name: state.nonogramName,
+        level: state.level,
+        input: state.userInput,
+      },
+    });
+    document.dispatchEvent(event);
+  }
+
+  startStopwatch();
 };
 
 export default drawGame;
