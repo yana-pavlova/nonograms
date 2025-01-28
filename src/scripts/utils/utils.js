@@ -25,3 +25,5 @@ export const changeTheme = (theme) => {
   document.body.classList.remove('theme_light', 'theme_dark');
   document.body.classList.add(`theme_${theme}`);
 };
+
+export const padWithZero = (number) => String(number).padStart(2, '0');

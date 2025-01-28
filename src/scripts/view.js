@@ -1,4 +1,4 @@
-import { createElement, changeTheme } from './utils/utils.js';
+import { createElement, changeTheme, padWithZero } from './utils/utils.js';
 import {
   numberOfLevels,
   modeTypes,
@@ -13,16 +13,26 @@ export const elements = {
   levelTabs: null,
   popup: null,
   resetButton: null,
+  stopwatch: null,
+  stopwatchHours: null,
+  stopwatchMinutes: null,
+  stopwatchSeconds: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
   hardNonograms: [],
 };
 
+let intervalId = null;
+
 const drawGame = (nonograms, anchor) => {
   const fragment = document.createDocumentFragment();
 
-  fragment.append(themeButtons());
+  const header = createElement({ tag: 'nav', classes: ['menu'] });
+  header.append(createStopwatch());
+  header.append(themeButtons());
+  fragment.append(header);
+
   fragment.append(createLevelTabs(anchor));
   fragment.append(createNonogramMenu(nonograms));
   fragment.append(createPopup());
@@ -109,6 +119,7 @@ const createLevelTabs = (anchor) => {
 
   elements.levelButtons.forEach((button) => {
     button.addEventListener('click', () => {
+      resetStopwatch();
       elements.levelButtons.forEach((btn) => {
         btn.classList.remove('active');
         btn.removeAttribute('disabled');
@@ -156,6 +167,7 @@ const createNonogramMenu = (nonograms) => {
       nonogram.dataset.nonogram = name;
 
       nonogram.addEventListener('click', () => {
+        resetStopwatch();
         nonogramMenu.querySelectorAll('.nonogram').forEach((btn) => {
           btn.classList.remove('active');
           btn.removeAttribute('disabled');
@@ -164,6 +176,8 @@ const createNonogramMenu = (nonograms) => {
         nonogram.setAttribute('disabled', true);
 
         elements.resetButton.style.display = 'block';
+
+        startStopwatch();
 
         elements.boardContainer.replaceWith(createBoard(levelDifficulty[i]));
 
@@ -272,12 +286,24 @@ const createPopup = () => {
   });
 
   const text = createElement({
-    tag: 'p',
-    text: 'You win! 🎉',
+    tag: 'span',
+    text: 'Great! You solved the puzzle in ',
+  });
+
+  const time = createElement({
+    tag: 'span',
+    classes: ['time'],
+  });
+
+  const secondPartOfText = createElement({
+    tag: 'span',
+    text: ' seconds! 🎉',
   });
 
   popup.append(closeButton);
   popup.append(text);
+  popup.append(time);
+  popup.append(secondPartOfText);
 
   popupContainer.append(popup);
 
@@ -289,6 +315,16 @@ export const showWinMessage = () => {
   const popup = elements.popup;
   const closeButton = popup.querySelector('.close');
 
+  const time = popup.querySelector('.time');
+  const seconds = parseInt(elements.stopwatchSeconds.textContent, 10);
+  const minutes = parseInt(elements.stopwatchMinutes.textContent, 10);
+  const hours = parseInt(elements.stopwatchHours.textContent, 10);
+
+  const totalSecs = hours * 3600 + minutes * 60 + seconds;
+
+  time.textContent = totalSecs;
+
+  stopStopwatch();
   popup.style.display = 'block';
   document.body.classList.add('no-scroll');
 
@@ -333,6 +369,73 @@ const createResetButton = () => {
   elements.resetButton.style.display = 'none';
 
   return elements.resetButton;
+};
+
+const createStopwatch = () => {
+  elements.stopwatch = createElement({
+    tag: 'div',
+    classes: ['stopwatch'],
+  });
+
+  elements.stopwatchHours = createElement({
+    tag: 'span',
+    classes: ['stopwatch__hours'],
+    text: '00',
+  });
+  elements.stopwatchMinutes = createElement({
+    tag: 'span',
+    classes: ['stopwatch__minutes'],
+    text: '00',
+  });
+  elements.stopwatchSeconds = createElement({
+    tag: 'span',
+    classes: ['stopwatch__seconds'],
+    text: '00',
+  });
+
+  elements.stopwatch.append(elements.stopwatchHours);
+  elements.stopwatch.append(createElement({ tag: 'span', text: ':' }));
+  elements.stopwatch.append(elements.stopwatchMinutes);
+  elements.stopwatch.append(createElement({ tag: 'span', text: ':' }));
+  elements.stopwatch.append(elements.stopwatchSeconds);
+
+  return elements.stopwatch;
+};
+
+const startStopwatch = () => {
+  if (intervalId) return;
+
+  intervalId = setInterval(() => {
+    let seconds = parseInt(elements.stopwatchSeconds.textContent, 10);
+    let minutes = parseInt(elements.stopwatchMinutes.textContent, 10);
+    let hours = parseInt(elements.stopwatchHours.textContent, 10);
+
+    seconds++;
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+    }
+    if (minutes === 60) {
+      minutes = 0;
+      hours++;
+    }
+
+    elements.stopwatchSeconds.textContent = padWithZero(seconds);
+    elements.stopwatchMinutes.textContent = padWithZero(minutes);
+    elements.stopwatchHours.textContent = padWithZero(hours);
+  }, 1000);
+};
+
+const stopStopwatch = () => {
+  clearInterval(intervalId);
+  intervalId = null;
+};
+
+const resetStopwatch = () => {
+  stopStopwatch();
+  elements.stopwatchHours.textContent = '00';
+  elements.stopwatchMinutes.textContent = '00';
+  elements.stopwatchSeconds.textContent = '00';
 };
 
 export default drawGame;

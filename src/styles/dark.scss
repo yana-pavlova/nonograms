@@ -7,6 +7,10 @@ $shadowed-accent-color: #282828;
 .page.theme_dark {
   background-color: $main-color;
 
+  .menu {
+    color: $accent-color;
+  }
+
   .board-container {
     color: $accent-color;
   }
