@@ -21,6 +21,8 @@ const initGame = () => {
     calculateClues(nonogram);
     isGameStarted = true;
     elements.board.style.pointerEvents = 'auto';
+
+    console.table(nonogram);
   });
 
   document.addEventListener('cellSelected', (event) => {
