@@ -503,7 +503,7 @@ const createSaveStateButton = () => {
   elements.saveStateButton = createElement({
     tag: 'button',
     classes: ['button', 'game-menu-button', 'save-state-button'],
-    text: 'save state',
+    text: 'save game',
   });
 
   elements.saveStateButton.addEventListener('click', () => {
@@ -522,7 +522,7 @@ const createRestoreStateButton = () => {
   elements.restoreStateButton = createElement({
     tag: 'button',
     classes: ['button', 'game-menu-button', 'restore-state-button'],
-    text: 'restore state',
+    text: 'restore game',
   });
 
   elements.restoreStateButton.addEventListener('click', () => {
@@ -530,11 +530,8 @@ const createRestoreStateButton = () => {
     document.dispatchEvent(event);
   });
 
-  // elements.restoreStateButton.style.display = 'none';
   elements.restoreStateButton.style.display =
     (checkIfThereIsDataInLocalStorage('gameState') && 'block') || 'none';
-
-  // elements.restoreStateButton.disabled = true;
   elements.restoreStateButton.disabled =
     !checkIfThereIsDataInLocalStorage('gameState');
 
