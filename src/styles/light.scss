@@ -56,9 +56,9 @@ $shadowed-accent-color: #b3b3b3;
       background-color: $accent-color;
     }
 
-    &.level:focus:not(:disabled),
-    &.theme-menu-button:focus:not(:disabled),
-    &.game-menu-button:focus:not(:disabled) {
+    &.level:focus-visible:not(:disabled),
+    &.theme-menu-button:focus-visible:not(:disabled),
+    &.game-menu-button:focus-visible:not(:disabled) {
       outline: none;
       color: $main-color;
       background-color: $accent-color;
