@@ -9,6 +9,7 @@ import {
   modeTypes,
   levelDifficulty,
 } from '../data/constants.js';
+import nonograms from '../data/nonograms.json';
 import * as sounds from './utils/sounds.js';
 
 export const elements = {
@@ -133,6 +134,85 @@ const createLevelTabs = (anchor) => {
     elements.levelButtons.push(level);
   }
 
+  const randomGameButton = createElement({
+    tag: 'button',
+    classes: ['button', 'level', 'level_random'],
+    text: 'Random game',
+  });
+  randomGameButton.dataset.mode = 'random';
+
+  elements.levelTabs.append(randomGameButton);
+
+  randomGameButton.addEventListener('click', () => {
+    resetStopwatch();
+    elements.levelButtons.forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+    });
+
+    elements.easyNonograms.forEach((n) => {
+      n.classList.remove('active');
+      n.removeAttribute('disabled');
+    });
+    elements.mediumNonograms.forEach((n) => {
+      n.classList.remove('active');
+      n.removeAttribute('disabled');
+    });
+    elements.hardNonograms.forEach((n) => {
+      n.classList.remove('active');
+      n.removeAttribute('disabled');
+    });
+
+    elements.resetButton.style.display = 'none';
+    elements.saveStateButton.style.display = 'none';
+
+    const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
+    const level = levelDifficulty[modeTypes.indexOf(mode)];
+
+    location.href = `${location.origin}#${mode}`;
+
+    const nonogramOfOveLevel = nonograms[mode];
+    const randomNonogramName =
+      Object.keys(nonogramOfOveLevel)[
+        Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
+      ];
+
+    document.body.querySelectorAll('.nonogram').forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+
+      if (btn.dataset.nonogram === randomNonogramName) {
+        btn.classList.add('active');
+        btn.setAttribute('disabled', true);
+      }
+    });
+
+    elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+
+      if (btn.dataset.mode === mode) {
+        btn.classList.add('active');
+        btn.setAttribute('disabled', true);
+      }
+    });
+
+    elements.boardContainer.replaceWith(createBoard(level));
+
+    const event = new CustomEvent('nonogramSelected', {
+      detail: {
+        name: randomNonogramName,
+        level: mode,
+      },
+    });
+    document.dispatchEvent(event);
+
+    elements.resetButton.style.display = 'block';
+    elements.saveStateButton.style.display = 'block';
+
+    startStopwatch();
+  });
+
   elements.levelButtons.forEach((button) => {
     button.addEventListener('click', () => {
       resetStopwatch();
@@ -159,7 +239,8 @@ const createLevelTabs = (anchor) => {
       elements.resetButton.style.display = 'none';
       elements.saveStateButton.style.display = 'none';
 
-      location.href = `${location.origin}#${button.dataset.mode}`;
+      const mode = button.dataset.mode;
+      location.href = `${location.origin}#${mode}`;
 
       elements.boardContainer.replaceWith(createBoard(button.dataset.level));
     });
@@ -372,7 +453,6 @@ export const showWinMessage = () => {
 
   elements.resetButton.style.display = 'none';
   elements.saveStateButton.style.display = 'none';
-  elements.restoreStateButton.style.display = 'none';
 
   stopStopwatch();
 

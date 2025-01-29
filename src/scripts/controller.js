@@ -26,6 +26,7 @@ const initGame = () => {
 
     nonogramName = event.detail.name;
     nonogramMatrix = nonograms[event.detail.level][event.detail.name];
+
     if (event.detail.input) {
       userInput = event.detail.input;
     } else {
@@ -83,8 +84,6 @@ const initGame = () => {
   document.addEventListener('restoreState', () => {
     const state = getDataFromLocalStorage('gameState');
     if (!state) return;
-
-    console.log(state);
 
     nonogramMatrix = state.nonogramMatrix;
     userInput = state.userInput;
