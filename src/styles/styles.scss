@@ -10,7 +10,7 @@
 .menu {
   inline-size: 100%;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: auto auto auto auto;
   align-items: center;
 }
 
@@ -32,6 +32,12 @@
         color 0.2s ease-in-out,
         background-color 0.2s ease-in-out;
     }
+  }
+
+  &.level_random {
+    border: none;
+    font-size: 1rem;
+    padding: 0;
   }
 }
 
@@ -281,4 +287,8 @@
   gap: 5px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.stopwatch {
+  font-size: 1rem;
 }

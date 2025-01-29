@@ -26,6 +26,7 @@ export const elements = {
   stopwatchSeconds: null,
   soundButton: null,
   saveStateButton: null,
+  randomGameButton: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
@@ -40,6 +41,7 @@ const drawGame = (nonograms, anchor) => {
 
   const header = createElement({ tag: 'nav', classes: ['menu'] });
   header.append(createStopwatch());
+  header.append(createRandomGameButton());
   header.append(createSoundButton());
   header.append(themeButtons());
   fragment.append(header);
@@ -134,84 +136,84 @@ const createLevelTabs = (anchor) => {
     elements.levelButtons.push(level);
   }
 
-  const randomGameButton = createElement({
-    tag: 'button',
-    classes: ['button', 'level', 'level_random'],
-    text: 'Random game',
-  });
-  randomGameButton.dataset.mode = 'random';
+  // const randomGameButton = createElement({
+  //   tag: 'button',
+  //   classes: ['button', 'level', 'level_random'],
+  //   text: 'Random game',
+  // });
+  // randomGameButton.dataset.mode = 'random';
 
-  elements.levelTabs.append(randomGameButton);
+  // elements.levelTabs.append(randomGameButton);
 
-  randomGameButton.addEventListener('click', () => {
-    resetStopwatch();
-    elements.levelButtons.forEach((btn) => {
-      btn.classList.remove('active');
-      btn.removeAttribute('disabled');
-    });
+  // elements.randomGameButton.addEventListener('click', () => {
+  //   resetStopwatch();
+  //   elements.levelButtons.forEach((btn) => {
+  //     btn.classList.remove('active');
+  //     btn.removeAttribute('disabled');
+  //   });
 
-    elements.easyNonograms.forEach((n) => {
-      n.classList.remove('active');
-      n.removeAttribute('disabled');
-    });
-    elements.mediumNonograms.forEach((n) => {
-      n.classList.remove('active');
-      n.removeAttribute('disabled');
-    });
-    elements.hardNonograms.forEach((n) => {
-      n.classList.remove('active');
-      n.removeAttribute('disabled');
-    });
+  //   elements.easyNonograms.forEach((n) => {
+  //     n.classList.remove('active');
+  //     n.removeAttribute('disabled');
+  //   });
+  //   elements.mediumNonograms.forEach((n) => {
+  //     n.classList.remove('active');
+  //     n.removeAttribute('disabled');
+  //   });
+  //   elements.hardNonograms.forEach((n) => {
+  //     n.classList.remove('active');
+  //     n.removeAttribute('disabled');
+  //   });
 
-    elements.resetButton.style.display = 'none';
-    elements.saveStateButton.style.display = 'none';
+  //   elements.resetButton.style.display = 'none';
+  //   elements.saveStateButton.style.display = 'none';
 
-    const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
-    const level = levelDifficulty[modeTypes.indexOf(mode)];
+  //   const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
+  //   const level = levelDifficulty[modeTypes.indexOf(mode)];
 
-    location.href = `${location.origin}#${mode}`;
+  //   location.href = `${location.origin}#${mode}`;
 
-    const nonogramOfOveLevel = nonograms[mode];
-    const randomNonogramName =
-      Object.keys(nonogramOfOveLevel)[
-        Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
-      ];
+  //   const nonogramOfOveLevel = nonograms[mode];
+  //   const randomNonogramName =
+  //     Object.keys(nonogramOfOveLevel)[
+  //       Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
+  //     ];
 
-    document.body.querySelectorAll('.nonogram').forEach((btn) => {
-      btn.classList.remove('active');
-      btn.removeAttribute('disabled');
+  //   document.body.querySelectorAll('.nonogram').forEach((btn) => {
+  //     btn.classList.remove('active');
+  //     btn.removeAttribute('disabled');
 
-      if (btn.dataset.nonogram === randomNonogramName) {
-        btn.classList.add('active');
-        btn.setAttribute('disabled', true);
-      }
-    });
+  //     if (btn.dataset.nonogram === randomNonogramName) {
+  //       btn.classList.add('active');
+  //       btn.setAttribute('disabled', true);
+  //     }
+  //   });
 
-    elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
-      btn.classList.remove('active');
-      btn.removeAttribute('disabled');
+  //   elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
+  //     btn.classList.remove('active');
+  //     btn.removeAttribute('disabled');
 
-      if (btn.dataset.mode === mode) {
-        btn.classList.add('active');
-        btn.setAttribute('disabled', true);
-      }
-    });
+  //     if (btn.dataset.mode === mode) {
+  //       btn.classList.add('active');
+  //       btn.setAttribute('disabled', true);
+  //     }
+  //   });
 
-    elements.boardContainer.replaceWith(createBoard(level));
+  //   elements.boardContainer.replaceWith(createBoard(level));
 
-    const event = new CustomEvent('nonogramSelected', {
-      detail: {
-        name: randomNonogramName,
-        level: mode,
-      },
-    });
-    document.dispatchEvent(event);
+  //   const event = new CustomEvent('nonogramSelected', {
+  //     detail: {
+  //       name: randomNonogramName,
+  //       level: mode,
+  //     },
+  //   });
+  //   document.dispatchEvent(event);
 
-    elements.resetButton.style.display = 'block';
-    elements.saveStateButton.style.display = 'block';
+  //   elements.resetButton.style.display = 'block';
+  //   elements.saveStateButton.style.display = 'block';
 
-    startStopwatch();
-  });
+  //   startStopwatch();
+  // });
 
   elements.levelButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -630,6 +632,88 @@ const createRestoreStateButton = () => {
   });
 
   return elements.restoreStateButton;
+};
+
+const createRandomGameButton = () => {
+  elements.randomGameButton = null;
+  elements.randomGameButton = createElement({
+    tag: 'button',
+    classes: ['button', 'level', 'level_random'],
+    text: 'Random game',
+  });
+  elements.randomGameButton.dataset.mode = 'random';
+
+  elements.randomGameButton.addEventListener('click', () => {
+    resetStopwatch();
+    elements.levelButtons.forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+    });
+
+    elements.easyNonograms.forEach((n) => {
+      n.classList.remove('active');
+      n.removeAttribute('disabled');
+    });
+    elements.mediumNonograms.forEach((n) => {
+      n.classList.remove('active');
+      n.removeAttribute('disabled');
+    });
+    elements.hardNonograms.forEach((n) => {
+      n.classList.remove('active');
+      n.removeAttribute('disabled');
+    });
+
+    elements.resetButton.style.display = 'none';
+    elements.saveStateButton.style.display = 'none';
+
+    const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
+    const level = levelDifficulty[modeTypes.indexOf(mode)];
+
+    location.href = `${location.origin}#${mode}`;
+
+    const nonogramOfOveLevel = nonograms[mode];
+    const randomNonogramName =
+      Object.keys(nonogramOfOveLevel)[
+        Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
+      ];
+
+    document.body.querySelectorAll('.nonogram').forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+
+      if (btn.dataset.nonogram === randomNonogramName) {
+        btn.classList.add('active');
+        btn.setAttribute('disabled', true);
+      }
+    });
+
+    elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+
+      if (btn.dataset.mode === mode) {
+        btn.classList.add('active');
+        btn.setAttribute('disabled', true);
+      }
+    });
+
+    elements.boardContainer.replaceWith(createBoard(level));
+
+    const event = new CustomEvent('nonogramSelected', {
+      detail: {
+        name: randomNonogramName,
+        level: mode,
+      },
+    });
+    document.dispatchEvent(event);
+
+    elements.resetButton.style.display = 'block';
+    elements.saveStateButton.style.display = 'block';
+
+    startStopwatch();
+  });
+
+  return elements.randomGameButton;
 };
 
 export const restoreState = (state) => {
