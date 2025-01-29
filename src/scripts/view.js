@@ -574,12 +574,22 @@ export const restoreState = (state) => {
   );
 
   if (nonogramButton) {
-    nonogramButton.classList.add('active');
-    nonogramButton.setAttribute('disabled', true);
+    const nonograms = document.body.querySelector('.nonogram-menu');
+    nonograms.querySelectorAll('.nonogram').forEach((btn) => {
+      btn.classList.remove('active');
+      btn.removeAttribute('disabled');
+
+      if (nonogramButton === btn) {
+        btn.classList.add('active');
+        btn.setAttribute('disabled', true);
+      }
+    });
 
     elements.resetButton.style.display = 'block';
     elements.saveStateButton.style.display = 'block';
     elements.restoreStateButton.style.display = 'block';
+
+    console.log(nonogramButton);
 
     const event = new CustomEvent('nonogramSelected', {
       detail: {
