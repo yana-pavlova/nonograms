@@ -143,12 +143,21 @@ const createLevelTabs = (anchor) => {
       button.classList.add('active');
       button.setAttribute('disabled', true);
 
-      elements.easyNonograms.forEach((n) => n.classList.remove('active'));
-      elements.easyNonograms.forEach((n) => n.removeAttribute('disabled'));
-      elements.mediumNonograms.forEach((n) => n.classList.remove('active'));
-      elements.mediumNonograms.forEach((n) => n.removeAttribute('disabled'));
-      elements.hardNonograms.forEach((n) => n.classList.remove('active'));
-      elements.hardNonograms.forEach((n) => n.removeAttribute('disabled'));
+      elements.easyNonograms.forEach((n) => {
+        n.classList.remove('active');
+        n.removeAttribute('disabled');
+      });
+      elements.mediumNonograms.forEach((n) => {
+        n.classList.remove('active');
+        n.removeAttribute('disabled');
+      });
+      elements.hardNonograms.forEach((n) => {
+        n.classList.remove('active');
+        n.removeAttribute('disabled');
+      });
+
+      elements.resetButton.style.display = 'none';
+      elements.saveStateButton.style.display = 'none';
 
       location.href = `${location.origin}#${button.dataset.mode}`;
 
@@ -595,8 +604,6 @@ export const restoreState = (state) => {
     elements.resetButton.style.display = 'block';
     elements.saveStateButton.style.display = 'block';
     elements.restoreStateButton.style.display = 'block';
-
-    console.log(nonogramButton);
 
     const event = new CustomEvent('nonogramSelected', {
       detail: {
