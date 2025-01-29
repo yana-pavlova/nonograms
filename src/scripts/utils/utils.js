@@ -33,3 +33,6 @@ export const saveDataInLocalStorage = (data, name) =>
 
 export const getDataFromLocalStorage = (name) =>
   JSON.parse(localStorage.getItem(name));
+
+export const checkIfThereIsDataInLocalStorage = (name) =>
+  Boolean(localStorage.getItem(name));

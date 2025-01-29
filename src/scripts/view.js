@@ -1,4 +1,9 @@
-import { createElement, changeTheme, padWithZero } from './utils/utils.js';
+import {
+  createElement,
+  changeTheme,
+  padWithZero,
+  checkIfThereIsDataInLocalStorage,
+} from './utils/utils.js';
 import {
   numberOfLevels,
   modeTypes,
@@ -525,8 +530,13 @@ const createRestoreStateButton = () => {
     document.dispatchEvent(event);
   });
 
-  elements.restoreStateButton.style.display = 'none';
-  elements.restoreStateButton.disabled = true;
+  // elements.restoreStateButton.style.display = 'none';
+  elements.restoreStateButton.style.display =
+    (checkIfThereIsDataInLocalStorage('gameState') && 'block') || 'none';
+
+  // elements.restoreStateButton.disabled = true;
+  elements.restoreStateButton.disabled =
+    !checkIfThereIsDataInLocalStorage('gameState');
 
   elements.restoreStateButton.addEventListener('click', () => {
     const event = new CustomEvent('restoreState');

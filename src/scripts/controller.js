@@ -81,18 +81,18 @@ const initGame = () => {
   });
 
   document.addEventListener('restoreState', () => {
-    if (isGameStarted) {
-      const state = getDataFromLocalStorage('gameState');
-      if (!state) return;
+    const state = getDataFromLocalStorage('gameState');
+    if (!state) return;
 
-      nonogramMatrix = state.nonogramMatrix;
-      userInput = state.userInput;
-      nonogramName = state.nonogramName;
-      anchor = state.level;
-      isGameStarted = true;
+    console.log(state);
 
-      restoreState(state);
-    }
+    nonogramMatrix = state.nonogramMatrix;
+    userInput = state.userInput;
+    nonogramName = state.nonogramName;
+    anchor = state.level;
+    isGameStarted = true;
+
+    restoreState(state);
   });
 };
 
