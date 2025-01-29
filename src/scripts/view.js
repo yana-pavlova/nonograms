@@ -616,16 +616,10 @@ const createRestoreStateButton = () => {
     text: 'restore game',
   });
 
-  elements.restoreStateButton.addEventListener('click', () => {
-    const event = new CustomEvent('restoreState');
-    document.dispatchEvent(event);
-  });
-
   elements.restoreStateButton.style.display =
     (checkIfThereIsDataInLocalStorage('gameState') && 'block') || 'none';
   elements.restoreStateButton.disabled =
     !checkIfThereIsDataInLocalStorage('gameState');
-
   elements.restoreStateButton.addEventListener('click', () => {
     const event = new CustomEvent('restoreState');
     document.dispatchEvent(event);
