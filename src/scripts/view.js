@@ -748,8 +748,7 @@ export const restoreState = (state) => {
   );
 
   if (nonogramButton) {
-    const nonograms = document.body.querySelector('.nonogram-menu');
-    nonograms.querySelectorAll('.nonogram').forEach((btn) => {
+    document.body.querySelectorAll('.nonogram').forEach((btn) => {
       btn.classList.remove('active');
       btn.removeAttribute('disabled');
 
