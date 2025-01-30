@@ -218,8 +218,6 @@ const createNonogramMenu = (nonograms) => {
         elements.saveStateButton.style.display = 'block';
         elements.restoreStateButton.style.display = 'block';
 
-        startStopwatch();
-
         elements.boardContainer.replaceWith(createBoard(levelDifficulty[i]));
 
         const event = new CustomEvent('nonogramSelected', {
@@ -463,7 +461,7 @@ const createStopwatch = () => {
   return elements.stopwatch;
 };
 
-const startStopwatch = () => {
+export const startStopwatch = () => {
   if (intervalId) return;
 
   intervalId = setInterval(() => {
@@ -699,8 +697,6 @@ const createRandomGameButton = () => {
     elements.resetButton.style.display = 'block';
     elements.saveStateButton.style.display = 'block';
     elements.showSolutionButton.style.display = 'block';
-
-    startStopwatch();
   });
 
   return elements.randomGameButton;

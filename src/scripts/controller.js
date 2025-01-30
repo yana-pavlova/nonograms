@@ -4,6 +4,7 @@ import drawGame, {
   restoreState,
   showWinMessage,
   showClues,
+  startStopwatch,
 } from './view.js';
 import {
   saveDataInLocalStorage,
@@ -36,13 +37,15 @@ const initGame = () => {
     }
 
     calculateClues(nonogramMatrix);
-    isGameStarted = true;
     elements.board.style.pointerEvents = 'auto';
 
     console.table(nonogramMatrix);
   });
 
   document.addEventListener('cellSelected', (event) => {
+    isGameStarted = true;
+    startStopwatch();
+
     if (isGameStarted) {
       const { row, col, cell } = event.detail;
 
