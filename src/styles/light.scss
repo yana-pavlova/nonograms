@@ -83,4 +83,9 @@ $shadowed-accent-color: #b3b3b3;
       color: $second-accent-color;
     }
   }
+
+  .best-results-row-header {
+    background-color: $accent-color;
+    color: $main-color;
+  }
 }

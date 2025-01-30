@@ -85,4 +85,9 @@ $shadowed-accent-color: #282828;
       color: $shadowed-main-color;
     }
   }
+
+  .best-results-row-header {
+    background-color: $accent-color;
+    color: $main-color;
+  }
 }
