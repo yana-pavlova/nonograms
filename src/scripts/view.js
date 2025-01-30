@@ -4,6 +4,7 @@ import {
   padWithZero,
   checkIfThereIsDataInLocalStorage,
   getDataFromLocalStorage,
+  handleOverlayClick,
 } from './utils/utils.js';
 import {
   numberOfLevels,
@@ -275,7 +276,7 @@ const createBoard = (difficulty = 5) => {
     tag: 'div',
     classes: ['board', `board-${difficulty}`],
   });
-  elements.board.style.pointerEvents = 'none';
+  elements.boardContainer.style.pointerEvents = 'none';
 
   for (let i = 0; i < difficulty ** 2; i++) {
     const row = Math.floor(i / difficulty);
@@ -393,13 +394,10 @@ export const showWinMessage = (secs) => {
   closeButton.onclick = function () {
     popup.style.display = 'none';
     document.body.classList.remove('no-scroll');
+    window.onclick = null;
   };
 
-  window.onclick = function (event) {
-    if (event.target == popup) {
-      popup.style.display = 'none';
-    }
-  };
+  window.onclick = (e) => handleOverlayClick(e, popup);
 };
 
 export const showClues = (data) => {
@@ -816,7 +814,10 @@ export const createBestResults = (shouldBeVisible) => {
   closeButton.addEventListener('click', () => {
     elements.bestResults.style.display = 'none';
     document.body.classList.remove('no-scroll');
+    window.onclick = null;
   });
+
+  window.onclick = (e) => handleOverlayClick(e, elements.bestResults);
 
   elements.bestResults.append(closeButton);
 

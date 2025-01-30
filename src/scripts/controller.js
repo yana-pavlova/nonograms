@@ -37,7 +37,7 @@ const initGame = () => {
     }
 
     calculateClues(nonogramMatrix);
-    elements.board.style.pointerEvents = 'auto';
+    elements.boardContainer.style.pointerEvents = 'auto';
 
     console.table(nonogramMatrix);
   });
@@ -127,7 +127,7 @@ const checkIfUserWins = () => {
   );
 
   isGameStarted = false;
-  elements.board.style.pointerEvents = 'none';
+  elements.boardContainer.style.pointerEvents = 'none';
   elements.resetButton.style.display = 'none';
 };
 
