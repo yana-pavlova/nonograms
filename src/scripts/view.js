@@ -663,7 +663,7 @@ const createRandomGameButton = () => {
     const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
     const level = levelDifficulty[modeTypes.indexOf(mode)];
 
-    location.href = `${location.origin}#${mode}`;
+    location.href = `${location.origin}${location.pathname}#${mode}`;
 
     const nonogramOfOveLevel = nonograms[mode];
     const randomNonogramName =
