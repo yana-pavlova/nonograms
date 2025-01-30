@@ -407,9 +407,8 @@ export const showClues = (data) => {
     data.cols[i].forEach((clue) => {
       const span = createElement({
         tag: 'span',
-        text: clue,
+        text: `${clue}`,
       });
-
       span.addEventListener('click', () => {
         span.classList.toggle('crossed-out');
       });
@@ -424,7 +423,7 @@ export const showClues = (data) => {
     data.rows[i].forEach((clue) => {
       const span = createElement({
         tag: 'span',
-        text: clue,
+        text: `${clue}`,
       });
       span.addEventListener('click', () => {
         span.classList.toggle('crossed-out');
