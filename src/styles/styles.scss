@@ -260,7 +260,7 @@
 .clue {
   text-align: center;
 
-  span:nth-child(5n) {
+  span:nth-child(6n) {
     &::before {
       content: '●';
     }
@@ -271,7 +271,7 @@
   display: flex;
   flex-direction: column;
 
-  span:nth-child(5n) {
+  span:nth-child(6n) {
     &::before {
       display: block;
     }
@@ -285,7 +285,7 @@
   align-items: baseline;
   gap: 3px;
 
-  span:nth-child(5n) {
+  span:nth-child(6n) {
     &::before {
       padding-inline-end: 3px;
     }
