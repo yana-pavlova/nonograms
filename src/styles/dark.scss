@@ -19,6 +19,9 @@ $shadowed-accent-color: #282828;
     & .cell {
       border-color: $accent-color;
     }
+    & .cell:hover {
+      background-color: $shadowed-main-color;
+    }
     & .cell.active {
       background-color: $second-accent-color;
     }
