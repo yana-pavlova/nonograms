@@ -90,4 +90,8 @@ $shadowed-accent-color: #282828;
     background-color: $accent-color;
     color: $main-color;
   }
+
+  .clue span:hover {
+    color: $second-accent-color;
+  }
 }

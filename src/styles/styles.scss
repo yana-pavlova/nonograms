@@ -266,6 +266,28 @@
 .clue {
   text-align: center;
 
+  @media (hover: hover) {
+    span:hover {
+      transition: color 0.2s ease-in-out;
+    }
+  }
+
+  span {
+    position: relative;
+    cursor: pointer;
+  }
+
+  span.crossed-out::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: rotate(45deg);
+    inline-size: 1px;
+    block-size: 100%;
+    background-color: currentColor;
+  }
+
   span:nth-child(6n) {
     &::before {
       content: '●';

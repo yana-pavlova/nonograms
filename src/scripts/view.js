@@ -412,6 +412,10 @@ export const showClues = (data) => {
         text: clue,
       });
 
+      span.addEventListener('click', () => {
+        span.classList.toggle('crossed-out');
+      });
+
       cols[i].append(span);
     });
   }
@@ -424,7 +428,9 @@ export const showClues = (data) => {
         tag: 'span',
         text: clue,
       });
-
+      span.addEventListener('click', () => {
+        span.classList.toggle('crossed-out');
+      });
       rows[i].append(span);
     });
   }
