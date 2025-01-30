@@ -849,7 +849,7 @@ export const createBestResults = (shouldBeVisible) => {
   const timeCell = createElement({
     tag: 'div',
     classes: ['best-results-cell', 'best-results-header'],
-    text: 'Seconds',
+    text: 'Time',
   });
 
   row.append(nameCell);
@@ -860,6 +860,9 @@ export const createBestResults = (shouldBeVisible) => {
 
   sortedData.forEach((result) => {
     const { name, level, time } = result;
+
+    const minutes = Math.floor(time / 60);
+    const seconds = time - minutes * 60;
 
     const row = createElement({
       tag: 'div',
@@ -881,7 +884,7 @@ export const createBestResults = (shouldBeVisible) => {
     const timeCell = createElement({
       tag: 'div',
       classes: ['best-results-cell'],
-      text: time,
+      text: `${padWithZero(minutes)}:${padWithZero(seconds)}`,
     });
 
     row.append(nameCell);
