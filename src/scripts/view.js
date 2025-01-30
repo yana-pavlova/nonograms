@@ -12,6 +12,7 @@ import {
 } from '../data/constants.js';
 import nonograms from '../data/nonograms.json';
 import * as sounds from './utils/sounds.js';
+import { nonogramMatrix, userInput } from './controller.js';
 
 export const elements = {
   board: null,
@@ -21,6 +22,7 @@ export const elements = {
   levelTabs: null,
   popup: null,
   resetButton: null,
+  showSolutionButton: null,
   stopwatch: null,
   stopwatchHours: null,
   stopwatchMinutes: null,
@@ -63,6 +65,7 @@ const drawGame = (nonograms, anchor) => {
 
   const footer = createElement({ tag: 'nav', classes: ['game-menu'] });
   footer.append(createResetButton());
+  footer.append(createShowSolutionButton());
   footer.append(createSaveStateButton());
   footer.append(createRestoreStateButton());
   fragment.append(footer);
@@ -166,6 +169,7 @@ const createLevelTabs = (anchor) => {
 
       elements.resetButton.style.display = 'none';
       elements.saveStateButton.style.display = 'none';
+      elements.showSolutionButton.style.display = 'none';
 
       const mode = button.dataset.mode;
       location.href = `${location.origin}${location.pathname}#${mode}`;
@@ -209,6 +213,7 @@ const createNonogramMenu = (nonograms) => {
         nonogram.classList.add('active');
         nonogram.setAttribute('disabled', true);
 
+        elements.showSolutionButton.style.display = 'block';
         elements.resetButton.style.display = 'block';
         elements.saveStateButton.style.display = 'block';
         elements.restoreStateButton.style.display = 'block';
@@ -376,6 +381,7 @@ export const showWinMessage = (secs) => {
 
   elements.resetButton.style.display = 'none';
   elements.saveStateButton.style.display = 'none';
+  elements.showSolutionButton.style.display = 'none';
 
   stopStopwatch();
 
@@ -494,6 +500,61 @@ const createSoundButton = () => {
   return elements.soundButton;
 };
 
+const createShowSolutionButton = () => {
+  let solutionIsShown = false;
+
+  elements.showSolutionButton = createElement({
+    tag: 'button',
+    classes: ['button', 'game-menu-button', 'show-solution-button'],
+    text: 'show solution',
+  });
+
+  elements.showSolutionButton.addEventListener('click', () => {
+    if (!solutionIsShown) {
+      solutionIsShown = true;
+      elements.showSolutionButton.textContent = 'hide solution';
+      const currentMatrix = nonogramMatrix;
+
+      for (let i = 0; i < currentMatrix.length; i++) {
+        for (let j = 0; j < currentMatrix[i].length; j++) {
+          const cell = elements.board.querySelector(
+            `.cell[data-row="${i}"][data-col="${j}"]`
+          );
+          cell.classList.remove('active');
+          cell.classList.remove('empty');
+          if (currentMatrix[i][j] === 1) {
+            cell.classList.add('active');
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < userInput.length; i++) {
+        for (let j = 0; j < userInput[i].length; j++) {
+          const cell = elements.board.querySelector(
+            `.cell[data-row="${i}"][data-col="${j}"]`
+          );
+          cell.classList.remove('active');
+          cell.classList.remove('empty');
+          if (userInput[i][j] === 1) {
+            console.log('!');
+            cell.classList.add('active');
+          } else if (userInput[i][j] === 2) {
+            console.log('?');
+            cell.classList.add('empty');
+          }
+        }
+      }
+
+      solutionIsShown = false;
+      elements.showSolutionButton.textContent = 'show solution';
+    }
+  });
+
+  elements.showSolutionButton.style.display = 'none';
+
+  return elements.showSolutionButton;
+};
+
 const createResetButton = () => {
   elements.resetButton = createElement({
     tag: 'button',
@@ -580,6 +641,7 @@ const createRandomGameButton = () => {
 
     elements.resetButton.style.display = 'none';
     elements.saveStateButton.style.display = 'none';
+    elements.showSolutionButton.style.display = 'none';
 
     const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
     const level = levelDifficulty[modeTypes.indexOf(mode)];
@@ -624,6 +686,7 @@ const createRandomGameButton = () => {
 
     elements.resetButton.style.display = 'block';
     elements.saveStateButton.style.display = 'block';
+    elements.showSolutionButton.style.display = 'block';
 
     startStopwatch();
   });
@@ -679,6 +742,7 @@ export const restoreState = (state) => {
       }
     });
 
+    elements.showSolutionButton.style.display = 'block';
     elements.resetButton.style.display = 'block';
     elements.saveStateButton.style.display = 'block';
     elements.restoreStateButton.style.display = 'block';

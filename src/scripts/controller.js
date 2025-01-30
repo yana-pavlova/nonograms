@@ -11,10 +11,10 @@ import {
 } from './utils/utils.js';
 
 let isGameStarted = false;
-let nonogramMatrix = null;
+export let nonogramMatrix = null;
 let nonogramName;
 
-let userInput = null;
+export let userInput = null;
 
 let anchor = window.location.hash.slice(1);
 
