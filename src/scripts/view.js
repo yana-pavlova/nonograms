@@ -242,7 +242,7 @@ const createLevelTabs = (anchor) => {
       elements.saveStateButton.style.display = 'none';
 
       const mode = button.dataset.mode;
-      location.href = `${location.origin}#${mode}`;
+      location.href = `${location.origin}${location.pathname}#${mode}`;
 
       elements.boardContainer.replaceWith(createBoard(button.dataset.level));
     });
