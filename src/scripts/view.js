@@ -408,13 +408,27 @@ export const showClues = (data) => {
   const cols = elements.colsClues.querySelectorAll('.clue-col');
 
   for (let i = 0; i < cols.length; i++) {
-    cols[i].textContent = data.cols[i].join('\n');
+    data.cols[i].forEach((clue) => {
+      const span = createElement({
+        tag: 'span',
+        text: clue,
+      });
+
+      cols[i].append(span);
+    });
   }
 
   const rows = elements.rowsClues.querySelectorAll('.clue-row');
 
   for (let i = 0; i < rows.length; i++) {
-    rows[i].innerHTML = data.rows[i].join('&nbsp;');
+    data.rows[i].forEach((clue) => {
+      const span = createElement({
+        tag: 'span',
+        text: clue,
+      });
+
+      rows[i].append(span);
+    });
   }
 };
 
@@ -536,10 +550,8 @@ const createShowSolutionButton = () => {
           cell.classList.remove('active');
           cell.classList.remove('empty');
           if (userInput[i][j] === 1) {
-            console.log('!');
             cell.classList.add('active');
           } else if (userInput[i][j] === 2) {
-            console.log('?');
             cell.classList.add('empty');
           }
         }
@@ -883,7 +895,6 @@ export const createBestResults = (shouldBeVisible) => {
   bestResults.append(closeButton);
   elements.bestResults.append(bestResults);
 
-  console.log(elements.bestResults);
   document.body.append(elements.bestResults);
 
   return elements.bestResults;
@@ -931,7 +942,6 @@ const renderLastResultsWithoutData = (shouldBeVisible) => {
   bestResults.append(closeButton);
   elements.bestResults.append(bestResults);
 
-  console.log(elements.bestResults);
   document.body.append(elements.bestResults);
 
   return elements.bestResults;

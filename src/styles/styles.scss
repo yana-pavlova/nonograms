@@ -259,10 +259,37 @@
 
 .clue {
   text-align: center;
+
+  span:nth-child(5n) {
+    &::before {
+      content: '●';
+    }
+  }
 }
 
 .clue-col {
-  white-space: pre-wrap;
+  display: flex;
+  flex-direction: column;
+
+  span:nth-child(5n) {
+    &::before {
+      display: block;
+    }
+  }
+}
+
+.clue-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 3px;
+
+  span:nth-child(5n) {
+    &::before {
+      padding-inline-end: 3px;
+    }
+  }
 }
 
 .board-container-15 .clue {
