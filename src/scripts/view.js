@@ -39,7 +39,7 @@ export const elements = {
 };
 
 let intervalId = null;
-let soundsEnabled = true;
+let soundsEnabled = false;
 
 const drawGame = (nonograms, anchor) => {
   const fragment = document.createDocumentFragment();
@@ -500,7 +500,7 @@ const resetStopwatch = () => {
 const createSoundButton = () => {
   elements.soundButton = createElement({
     tag: 'button',
-    classes: ['button', 'sound-button'],
+    classes: ['button', 'sound-button', 'sound-off'],
     text: '♫',
   });
 
