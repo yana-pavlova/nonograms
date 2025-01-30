@@ -3,6 +3,7 @@ import {
   changeTheme,
   padWithZero,
   checkIfThereIsDataInLocalStorage,
+  getDataFromLocalStorage,
 } from './utils/utils.js';
 import {
   numberOfLevels,
@@ -27,6 +28,8 @@ export const elements = {
   soundButton: null,
   saveStateButton: null,
   randomGameButton: null,
+  bestResultsButton: null,
+  bestResults: null,
   levelButtons: [],
   easyNonograms: [],
   mediumNonograms: [],
@@ -41,6 +44,7 @@ const drawGame = (nonograms, anchor) => {
 
   const header = createElement({ tag: 'nav', classes: ['menu'] });
   header.append(createStopwatch());
+  header.append(createBestResultsButton());
   header.append(createRandomGameButton());
   header.append(createSoundButton());
   header.append(themeButtons());
@@ -49,6 +53,7 @@ const drawGame = (nonograms, anchor) => {
   fragment.append(createLevelTabs(anchor));
   fragment.append(createNonogramMenu(nonograms));
   fragment.append(createPopup());
+  fragment.append(createBestResults());
 
   if (anchor) {
     fragment.append(createBoard(levelDifficulty[modeTypes.indexOf(anchor)]));
@@ -135,85 +140,6 @@ const createLevelTabs = (anchor) => {
     elements.levelTabs.append(level);
     elements.levelButtons.push(level);
   }
-
-  // const randomGameButton = createElement({
-  //   tag: 'button',
-  //   classes: ['button', 'level', 'level_random'],
-  //   text: 'Random game',
-  // });
-  // randomGameButton.dataset.mode = 'random';
-
-  // elements.levelTabs.append(randomGameButton);
-
-  // elements.randomGameButton.addEventListener('click', () => {
-  //   resetStopwatch();
-  //   elements.levelButtons.forEach((btn) => {
-  //     btn.classList.remove('active');
-  //     btn.removeAttribute('disabled');
-  //   });
-
-  //   elements.easyNonograms.forEach((n) => {
-  //     n.classList.remove('active');
-  //     n.removeAttribute('disabled');
-  //   });
-  //   elements.mediumNonograms.forEach((n) => {
-  //     n.classList.remove('active');
-  //     n.removeAttribute('disabled');
-  //   });
-  //   elements.hardNonograms.forEach((n) => {
-  //     n.classList.remove('active');
-  //     n.removeAttribute('disabled');
-  //   });
-
-  //   elements.resetButton.style.display = 'none';
-  //   elements.saveStateButton.style.display = 'none';
-
-  //   const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
-  //   const level = levelDifficulty[modeTypes.indexOf(mode)];
-
-  //   location.href = `${location.origin}#${mode}`;
-
-  //   const nonogramOfOveLevel = nonograms[mode];
-  //   const randomNonogramName =
-  //     Object.keys(nonogramOfOveLevel)[
-  //       Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
-  //     ];
-
-  //   document.body.querySelectorAll('.nonogram').forEach((btn) => {
-  //     btn.classList.remove('active');
-  //     btn.removeAttribute('disabled');
-
-  //     if (btn.dataset.nonogram === randomNonogramName) {
-  //       btn.classList.add('active');
-  //       btn.setAttribute('disabled', true);
-  //     }
-  //   });
-
-  //   elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
-  //     btn.classList.remove('active');
-  //     btn.removeAttribute('disabled');
-
-  //     if (btn.dataset.mode === mode) {
-  //       btn.classList.add('active');
-  //       btn.setAttribute('disabled', true);
-  //     }
-  //   });
-
-  //   elements.boardContainer.replaceWith(createBoard(level));
-
-  //   const event = new CustomEvent('nonogramSelected', {
-  //     detail: {
-  //       name: randomNonogramName,
-  //       level: mode,
-  //     },
-  //   });
-  //   document.dispatchEvent(event);
-
-  //   elements.resetButton.style.display = 'block';
-  //   elements.saveStateButton.style.display = 'block';
-
-  //   startStopwatch();
-  // });
 
   elements.levelButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -440,18 +366,13 @@ const createPopup = () => {
   return popupContainer;
 };
 
-export const showWinMessage = () => {
+export const showWinMessage = (secs) => {
   const popup = elements.popup;
   const closeButton = popup.querySelector('.close');
 
   const time = popup.querySelector('.time');
-  const seconds = parseInt(elements.stopwatchSeconds.textContent, 10);
-  const minutes = parseInt(elements.stopwatchMinutes.textContent, 10);
-  const hours = parseInt(elements.stopwatchHours.textContent, 10);
 
-  const totalSecs = hours * 3600 + minutes * 60 + seconds;
-
-  time.textContent = totalSecs;
+  time.textContent = secs;
 
   elements.resetButton.style.display = 'none';
   elements.saveStateButton.style.display = 'none';
@@ -773,6 +694,135 @@ export const restoreState = (state) => {
   }
 
   startStopwatch();
+};
+
+const createBestResultsButton = () => {
+  elements.bestResultsButton = createElement({
+    tag: 'button',
+    classes: ['button', 'level', 'level_best-results'],
+    text: 'Last results',
+  });
+
+  elements.bestResultsButton.addEventListener('click', () => {
+    renderBestResults();
+  });
+
+  return elements.bestResultsButton;
+};
+
+const renderBestResults = () => {
+  document.body.classList.add('no-scroll');
+  createBestResults(true);
+};
+
+export const createBestResults = (shouldBeVisible) => {
+  const data = getDataFromLocalStorage('win');
+  if (!data) return;
+
+  if (elements.bestResults) {
+    elements.bestResults.remove();
+  }
+
+  elements.bestResults = createElement({
+    tag: 'div',
+    classes: ['modal', 'best-results__table'],
+  });
+
+  const closeButton = createElement({
+    tag: 'span',
+    classes: ['close'],
+  });
+
+  closeButton.addEventListener('click', () => {
+    elements.bestResults.style.display = 'none';
+    document.body.classList.remove('no-scroll');
+  });
+
+  elements.bestResults.append(closeButton);
+
+  const bestResults = createElement({
+    tag: 'div',
+    classes: ['best-results', 'modal-content'],
+  });
+
+  elements.bestResults.style.display = shouldBeVisible ? 'grid' : 'none';
+
+  const title = createElement({
+    tag: 'h2',
+    classes: ['best-results__title'],
+    text: 'Last 5 results',
+  });
+
+  bestResults.append(title);
+
+  const row = createElement({
+    tag: 'div',
+    classes: ['best-results-row', 'best-results-row-header'],
+  });
+
+  const nameCell = createElement({
+    tag: 'div',
+    classes: ['best-results-cell', 'best-results-header'],
+    text: 'Nonogram',
+  });
+
+  const levelCell = createElement({
+    tag: 'div',
+    classes: ['best-results-cell', 'best-results-header'],
+    text: 'Level',
+  });
+
+  const timeCell = createElement({
+    tag: 'div',
+    classes: ['best-results-cell', 'best-results-header'],
+    text: 'Seconds',
+  });
+
+  row.append(nameCell);
+  row.append(levelCell);
+  row.append(timeCell);
+
+  bestResults.append(row);
+
+  data.forEach((result) => {
+    const { name, level, time } = result;
+
+    const row = createElement({
+      tag: 'div',
+      classes: ['best-results-row'],
+    });
+
+    const nameCell = createElement({
+      tag: 'div',
+      classes: ['best-results-cell'],
+      text: name,
+    });
+
+    const levelCell = createElement({
+      tag: 'div',
+      classes: ['best-results-cell'],
+      text: level,
+    });
+
+    const timeCell = createElement({
+      tag: 'div',
+      classes: ['best-results-cell'],
+      text: time,
+    });
+
+    row.append(nameCell);
+    row.append(levelCell);
+    row.append(timeCell);
+    bestResults.append(row);
+  });
+
+  bestResults.append(closeButton);
+  elements.bestResults.append(bestResults);
+
+  console.log(elements.bestResults);
+  document.body.append(elements.bestResults);
+
+  return elements.bestResults;
 };
 
 export default drawGame;

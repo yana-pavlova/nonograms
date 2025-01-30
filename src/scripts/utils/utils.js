@@ -28,8 +28,22 @@ export const changeTheme = (theme) => {
 
 export const padWithZero = (number) => String(number).padStart(2, '0');
 
-export const saveDataInLocalStorage = (data, name) =>
-  localStorage.setItem(name, JSON.stringify(data));
+export const saveDataInLocalStorage = (data, name) => {
+  if (name === 'win') {
+    const maxItems = 5;
+    const storedData =
+      getDataFromLocalStorage(name) === null
+        ? []
+        : getDataFromLocalStorage(name);
+    storedData.push(data);
+    if (storedData.length > maxItems) {
+      storedData.shift();
+    }
+    localStorage.setItem(name, JSON.stringify(storedData));
+  } else {
+    localStorage.setItem(name, JSON.stringify(data));
+  }
+};
 
 export const getDataFromLocalStorage = (name) =>
   JSON.parse(localStorage.getItem(name));

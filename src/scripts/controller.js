@@ -4,6 +4,7 @@ import drawGame, {
   restoreState,
   showWinMessage,
   showClues,
+  createBestResults,
 } from './view.js';
 import {
   saveDataInLocalStorage,
@@ -107,7 +108,22 @@ const checkIfUserWins = () => {
     }
   }
 
-  showWinMessage();
+  const seconds = parseInt(elements.stopwatchSeconds.textContent, 10);
+  const minutes = parseInt(elements.stopwatchMinutes.textContent, 10);
+  const hours = parseInt(elements.stopwatchHours.textContent, 10);
+
+  const totalSecs = hours * 3600 + minutes * 60 + seconds;
+
+  showWinMessage(totalSecs);
+  saveDataInLocalStorage(
+    {
+      name: nonogramName,
+      level: window.location.hash.slice(1),
+      time: totalSecs,
+    },
+    'win'
+  );
+
   isGameStarted = false;
   elements.board.style.pointerEvents = 'none';
   elements.resetButton.style.display = 'none';
