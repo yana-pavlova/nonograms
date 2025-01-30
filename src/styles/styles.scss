@@ -312,6 +312,14 @@
   text-align: left;
   font-size: 1rem;
 
+  .best-results__title {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+  }
+
   &.close::after {
     content: 'X';
     position: absolute;

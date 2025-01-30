@@ -717,7 +717,7 @@ const renderBestResults = () => {
 
 export const createBestResults = (shouldBeVisible) => {
   const data = getDataFromLocalStorage('win');
-  if (!data) return;
+  if (!data) return renderLastResultsWithoutData(shouldBeVisible);
 
   if (elements.bestResults) {
     elements.bestResults.remove();
@@ -816,6 +816,54 @@ export const createBestResults = (shouldBeVisible) => {
     bestResults.append(row);
   });
 
+  bestResults.append(closeButton);
+  elements.bestResults.append(bestResults);
+
+  console.log(elements.bestResults);
+  document.body.append(elements.bestResults);
+
+  return elements.bestResults;
+};
+
+const renderLastResultsWithoutData = (shouldBeVisible) => {
+  elements.bestResults = createElement({
+    tag: 'div',
+    classes: ['modal', 'best-results__table'],
+  });
+
+  const closeButton = createElement({
+    tag: 'span',
+    classes: ['close'],
+  });
+
+  closeButton.addEventListener('click', () => {
+    elements.bestResults.style.display = 'none';
+    document.body.classList.remove('no-scroll');
+  });
+
+  elements.bestResults.append(closeButton);
+
+  const bestResults = createElement({
+    tag: 'div',
+    classes: ['best-results', 'modal-content'],
+  });
+
+  elements.bestResults.style.display = shouldBeVisible ? 'grid' : 'none';
+
+  const title = createElement({
+    tag: 'h2',
+    classes: ['best-results__title'],
+    text: 'Here will be last 5 results',
+  });
+
+  bestResults.append(title);
+
+  const paragraph = createElement({
+    tag: 'p',
+    text: ["Win any game and it'll appear here."],
+  });
+
+  bestResults.append(paragraph);
   bestResults.append(closeButton);
   elements.bestResults.append(bestResults);
 
