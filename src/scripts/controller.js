@@ -4,7 +4,6 @@ import drawGame, {
   restoreState,
   showWinMessage,
   showClues,
-  createBestResults,
 } from './view.js';
 import {
   saveDataInLocalStorage,
