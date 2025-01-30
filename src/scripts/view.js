@@ -791,6 +791,8 @@ export const createBestResults = (shouldBeVisible) => {
   const data = getDataFromLocalStorage('win');
   if (!data) return renderLastResultsWithoutData(shouldBeVisible);
 
+  const sortedData = data.sort((a, b) => a.time - b.time);
+
   if (elements.bestResults) {
     elements.bestResults.remove();
   }
@@ -856,7 +858,7 @@ export const createBestResults = (shouldBeVisible) => {
 
   bestResults.append(row);
 
-  data.forEach((result) => {
+  sortedData.forEach((result) => {
     const { name, level, time } = result;
 
     const row = createElement({
