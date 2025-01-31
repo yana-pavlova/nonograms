@@ -312,7 +312,7 @@ const createBoard = (difficulty = 5) => {
         }
       } else if (e.button === 2) {
         cell.classList.remove('active');
-        cell.classList.add('empty');
+        cell.classList.toggle('empty');
         if (soundsEnabled) {
           sounds.emptiedCellSound.currentTime = 0;
           sounds.emptiedCellSound.play();
