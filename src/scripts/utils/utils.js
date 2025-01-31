@@ -52,7 +52,6 @@ export const checkIfThereIsDataInLocalStorage = (name) =>
   Boolean(localStorage.getItem(name));
 
 export const handleOverlayClick = (event, popup) => {
-  console.log(popup, event.target);
   if (popup.contains(event.target)) {
     popup.style.display = 'none';
     document.body.classList.remove('no-scroll');
