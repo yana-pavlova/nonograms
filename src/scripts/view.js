@@ -39,6 +39,8 @@ export const elements = {
   hardNonograms: [],
 };
 
+const favicon = document.getElementById('favicon');
+
 let intervalId = null;
 let soundsEnabled = false;
 
@@ -101,10 +103,12 @@ const themeButtons = () => {
       });
       if ([...button.classList].includes('theme-menu-button_type_light')) {
         changeTheme('light');
+        favicon.href = './light_favicon.ico';
       } else if (
         [...button.classList].includes('theme-menu-button_type_dark')
       ) {
         changeTheme('dark');
+        favicon.href = './dark_favicon.ico';
       }
       button.classList.add('theme-menu-button_active');
       button.setAttribute('disabled', true);

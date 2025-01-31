@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -61,6 +62,12 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html', // Шаблон HTML
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/favicon/light_favicon.ico', to: 'light_favicon.ico' },
+        { from: 'src/favicon/dark_favicon.ico', to: 'dark_favicon.ico' },
+      ],
     }),
   ],
 };
