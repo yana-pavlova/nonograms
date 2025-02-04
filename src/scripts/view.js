@@ -640,72 +640,7 @@ const createRandomGameButton = () => {
 
   elements.randomGameButton.addEventListener('click', () => {
     resetStopwatch();
-    elements.levelButtons.forEach((btn) => {
-      btn.classList.remove('active');
-      btn.removeAttribute('disabled');
-    });
-
-    elements.easyNonograms.forEach((n) => {
-      n.classList.remove('active');
-      n.removeAttribute('disabled');
-    });
-    elements.mediumNonograms.forEach((n) => {
-      n.classList.remove('active');
-      n.removeAttribute('disabled');
-    });
-    elements.hardNonograms.forEach((n) => {
-      n.classList.remove('active');
-      n.removeAttribute('disabled');
-    });
-
-    elements.resetButton.style.display = 'none';
-    elements.saveStateButton.style.display = 'none';
-    elements.showSolutionButton.style.display = 'none';
-
-    const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
-    const level = levelDifficulty[modeTypes.indexOf(mode)];
-
-    location.href = `${location.origin}${location.pathname}#${mode}`;
-
-    const nonogramOfOveLevel = nonograms[mode];
-    const randomNonogramName =
-      Object.keys(nonogramOfOveLevel)[
-        Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
-      ];
-
-    document.body.querySelectorAll('.nonogram').forEach((btn) => {
-      btn.classList.remove('active');
-      btn.removeAttribute('disabled');
-
-      if (btn.dataset.nonogram === randomNonogramName) {
-        btn.classList.add('active');
-        btn.setAttribute('disabled', true);
-      }
-    });
-
-    elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
-      btn.classList.remove('active');
-      btn.removeAttribute('disabled');
-
-      if (btn.dataset.mode === mode) {
-        btn.classList.add('active');
-        btn.setAttribute('disabled', true);
-      }
-    });
-
-    elements.boardContainer.replaceWith(createBoard(level));
-
-    const event = new CustomEvent('nonogramSelected', {
-      detail: {
-        name: randomNonogramName,
-        level: mode,
-      },
-    });
-    document.dispatchEvent(event);
-
-    elements.resetButton.style.display = 'block';
-    elements.saveStateButton.style.display = 'block';
-    elements.showSolutionButton.style.display = 'block';
+    startRandomGame();
   });
 
   return elements.randomGameButton;
@@ -958,6 +893,141 @@ const renderLastResultsWithoutData = (shouldBeVisible) => {
   document.body.append(elements.bestResults);
 
   return elements.bestResults;
+};
+
+const startRandomGame = () => {
+  elements.levelButtons.forEach((btn) => {
+    btn.classList.remove('active');
+    btn.removeAttribute('disabled');
+  });
+
+  elements.easyNonograms.forEach((n) => {
+    n.classList.remove('active');
+    n.removeAttribute('disabled');
+  });
+  elements.mediumNonograms.forEach((n) => {
+    n.classList.remove('active');
+    n.removeAttribute('disabled');
+  });
+  elements.hardNonograms.forEach((n) => {
+    n.classList.remove('active');
+    n.removeAttribute('disabled');
+  });
+
+  elements.resetButton.style.display = 'none';
+  elements.saveStateButton.style.display = 'none';
+  elements.showSolutionButton.style.display = 'none';
+
+  const mode = modeTypes[Math.floor(Math.random() * modeTypes.length)];
+  const level = levelDifficulty[modeTypes.indexOf(mode)];
+
+  location.href = `${location.origin}${location.pathname}#${mode}`;
+
+  const nonogramOfOveLevel = nonograms[mode];
+  const randomNonogramName =
+    Object.keys(nonogramOfOveLevel)[
+      Math.floor(Math.random() * Object.keys(nonogramOfOveLevel).length)
+    ];
+
+  document.body.querySelectorAll('.nonogram').forEach((btn) => {
+    btn.classList.remove('active');
+    btn.removeAttribute('disabled');
+
+    if (btn.dataset.nonogram === randomNonogramName) {
+      btn.classList.add('active');
+      btn.setAttribute('disabled', true);
+    }
+  });
+
+  elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
+    btn.classList.remove('active');
+    btn.removeAttribute('disabled');
+
+    if (btn.dataset.mode === mode) {
+      btn.classList.add('active');
+      btn.setAttribute('disabled', true);
+    }
+  });
+
+  elements.boardContainer.replaceWith(createBoard(level));
+
+  const event = new CustomEvent('nonogramSelected', {
+    detail: {
+      name: randomNonogramName,
+      level: mode,
+    },
+  });
+  document.dispatchEvent(event);
+
+  elements.resetButton.style.display = 'block';
+  elements.saveStateButton.style.display = 'block';
+  elements.showSolutionButton.style.display = 'block';
+};
+
+export const startFirstGame = () => {
+  elements.levelButtons.forEach((btn) => {
+    btn.classList.remove('active');
+    btn.removeAttribute('disabled');
+  });
+
+  elements.easyNonograms.forEach((n) => {
+    n.classList.remove('active');
+    n.removeAttribute('disabled');
+  });
+  elements.mediumNonograms.forEach((n) => {
+    n.classList.remove('active');
+    n.removeAttribute('disabled');
+  });
+  elements.hardNonograms.forEach((n) => {
+    n.classList.remove('active');
+    n.removeAttribute('disabled');
+  });
+
+  elements.resetButton.style.display = 'none';
+  elements.saveStateButton.style.display = 'none';
+  elements.showSolutionButton.style.display = 'none';
+
+  const mode = modeTypes[0];
+  const level = levelDifficulty[modeTypes.indexOf(mode)];
+
+  location.href = `${location.origin}${location.pathname}#${mode}`;
+
+  const nonogramOfOveLevel = nonograms[mode];
+  const nonogramName = Object.keys(nonogramOfOveLevel)[0];
+
+  document.body.querySelectorAll('.nonogram').forEach((btn) => {
+    btn.classList.remove('active');
+    btn.removeAttribute('disabled');
+
+    if (btn.dataset.nonogram === nonogramName) {
+      btn.classList.add('active');
+      btn.setAttribute('disabled', true);
+    }
+  });
+
+  elements.levelTabs.querySelectorAll('.level').forEach((btn) => {
+    btn.classList.remove('active');
+    btn.removeAttribute('disabled');
+
+    if (btn.dataset.mode === mode) {
+      btn.classList.add('active');
+      btn.setAttribute('disabled', true);
+    }
+  });
+
+  elements.boardContainer.replaceWith(createBoard(level));
+
+  const event = new CustomEvent('nonogramSelected', {
+    detail: {
+      name: nonogramName,
+      level: mode,
+    },
+  });
+  document.dispatchEvent(event);
+
+  elements.resetButton.style.display = 'block';
+  elements.saveStateButton.style.display = 'block';
+  elements.showSolutionButton.style.display = 'block';
 };
 
 export default drawGame;

@@ -5,6 +5,7 @@ import drawGame, {
   showWinMessage,
   showClues,
   startStopwatch,
+  startFirstGame,
 } from './view.js';
 import {
   saveDataInLocalStorage,
@@ -96,6 +97,8 @@ const initGame = () => {
 
     restoreState(state);
   });
+
+  startFirstGame();
 };
 
 const checkIfUserWins = () => {
