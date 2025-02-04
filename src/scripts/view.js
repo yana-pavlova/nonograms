@@ -530,6 +530,7 @@ const createShowSolutionButton = () => {
 
   elements.showSolutionButton.addEventListener('click', () => {
     if (!solutionIsShown) {
+      elements.boardContainer.style.pointerEvents = 'none';
       solutionIsShown = true;
       elements.showSolutionButton.textContent = 'hide solution';
       const currentMatrix = nonogramMatrix;
@@ -563,6 +564,7 @@ const createShowSolutionButton = () => {
       }
 
       solutionIsShown = false;
+      elements.boardContainer.style.pointerEvents = 'auto';
       elements.showSolutionButton.textContent = 'show solution';
     }
   });
