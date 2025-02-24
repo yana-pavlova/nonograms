@@ -1,5 +1,8 @@
 Try it <a href="https://yana-pavlova.github.io/nonograms/">here</a>
 
+![1740382292432224](https://github.com/user-attachments/assets/86825c40-9bb5-44e9-9fff-473fd0a21b54)
+
+
 ## Tech stack
 
 - JS
